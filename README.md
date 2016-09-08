@@ -33,6 +33,7 @@ Scripted deployment is designed for deploying large classroom environments of hu
 #Research 
   1) R Based VM to interactively run your R scripts
   2) R based Batch to run your R scripts
+  
 
 #If you would like to work on the buildout of this project, please contact Dan Stolts dstolts@microsoft.com
 
