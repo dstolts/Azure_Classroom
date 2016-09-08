@@ -6,7 +6,7 @@ We will leverage many different programming languages, scripting languages and t
 Scripted deployment is designed for deploying large classroom environments of hundreds or even thousands of students in a single class but it can also be used for smaller classrooms.
 
 # Upcoming Technologies and scripts
-Linux:
+#Linux:
     1) Bash Script with Azure_CLI to make an "image" from an existing VM to use for classroom deployment
     2) Bash Script with Azure_Cli to create a VM based on a provided VM image to be used by each student for deploying their working environment without leveraging templates
     3) Bash Script with Azure_Cli to create a VM based on a provided VM image to be used by each student for deploying their working environment leveraging Templates JSON files
