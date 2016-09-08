@@ -30,9 +30,9 @@ Scripted deployment is designed for deploying large classroom environments of hu
     3) Build VM environments for a list of students provided which includes email address, names and subscriptionID to deploy all VMs needed and set security rights for each subscription provided by the list.  This also includes granting Professor and Teacher Assistant security rights to all subscriptions 
         Deploy To Azure Button to run scripts as an Azure Function. Steamlined for high performance ... target, standup 1000 machine class in 20 mins.  Includes ability to use custom image (target single custom image deployment in less than 10 mins)
 
-#Many more to come    
-  R Based VM to interactively run your R scripts
-  R based Batch to run your R scripts
+#Research 
+  1) R Based VM to interactively run your R scripts
+  2) R based Batch to run your R scripts
 
 #If you would like to work on the buildout of this project, please contact Dan Stolts dstolts@microsoft.com
 
