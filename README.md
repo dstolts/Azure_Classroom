@@ -31,9 +31,8 @@ Scripted deployment is designed for deploying large classroom environments of hu
         Deploy To Azure Button to run scripts as an Azure Function. Steamlined for high performance ... target, standup 1000 machine class in 20 mins.  Includes ability to use custom image (target single custom image deployment in less than 10 mins)
 
 #Research 
-  1) R Based VM to interactively run your R scripts
-  2) R based Batch to run your R scripts
-  
+    1) R Based VM to interactively run your R scripts
+    2) R based Batch to run your R scripts
 
 #If you would like to work on the buildout of this project, please contact Dan Stolts dstolts@microsoft.com
 
