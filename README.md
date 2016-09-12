@@ -3,6 +3,14 @@ Scripted Deployment of Azure Resources for an Entire Classroom
 
 We will leverage many different programming languages, scripting languages and technologies to give educators the tools they need to rapidly and repeatedly onboard an entire classroom of resources.  It will include server infrastructure as well as student VM environments.  All scripts will be well documented and access to commonly used variables will be provided at the top of the script for easy customization. Destination machines being deployed can be any VM that runs on Azure (Linux or Windows).  Over time, Azure_Classroom will be expanded to stand up other infrastructure as well such as machines for research, websites, docker containers, etc.
 
+#Overview of what you can expect in the coming months. 
+    1) Create and deploy website that will be used to collect parameters or perferences from the prefessor or teachers assistant. We will collect type of machines that will be deployed, allow import of student list, as well as authentication preferrences.
+    2) Sample Value stream Mapping for leveraging the Microsoft Cloud for your classroom environments
+    3) Code to leverage Micro services to perform various functions such as copying base image, creating user and permissions, Spinning up a vm, adding users and instructor access to vms, and more.
+    4) Easy to follow and customize code to so a simple deplyment of VMs
+    5) Code to process (loop through) list of machines and students to do the onboarding with little or no customization. 
+
+
 Scripted deployment is designed for deploying large classroom environments of hundreds or even thousands of students in a single class but it can also be used for smaller classrooms.
 
 # Upcoming Technologies and scripts
