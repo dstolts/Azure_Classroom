@@ -1,7 +1,10 @@
 # Azure_Classroom
 Scripted Deployment of Azure Resources for an Entire Classroom
 
-We will leverage many different programming languages, scripting languages and technologies to give educators the tools they need to rapidly and repeatedly onboard an entire classroom of resources.  It will include server infrastructure as well as student VM environments.  All scripts will be well documented and access to commonly used variables will be provided at the top of the script for easy customization. Destination machines being deployed can be any VM that runs on Azure (Linux or Windows).  Over time, Azure_Classroom will be expanded to stand up other infrastructure as well such as machines for research, websites, docker containers, etc.
+We will leverage many different programming languages, scripting languages and technologies to give educators the tools they need to rapidly and repeatedly onboard an entire classroom of resources.  It will include server infrastructure as well as student VM environments.  All scripts will be documented and access to commonly used variables will be provided at the top of the script for easy customization. Destination machines being deployed can be any VM that runs on Azure (Linux or Windows).  Over time, Azure_Classroom will be expanded to stand up other infrastructure as well such as machines for research, websites, docker containers, etc.
+
+#School/University Forks
+As professors and TAs work onboard classrooms we are asking them to fork this space and provide their customized solutions as well.  So far we are working with Harvard and MIT but once we get resources online we hope many others will follow.
 
 #Overview of what you can expect in the coming months. 
     1) Create and deploy website that will be used to collect parameters or perferences from the prefessor or teachers assistant. We will collect type of machines that will be deployed, allow import of student list, as well as authentication preferrences.
