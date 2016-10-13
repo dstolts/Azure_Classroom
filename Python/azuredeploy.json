@@ -35,7 +35,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "hshapiroStorage",
+    "storageAccountName": "hshapirostorage12345",
     "dataDisk1VhdName": "datadisk1",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
