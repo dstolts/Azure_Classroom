@@ -17,6 +17,9 @@
       "value": "Aw3someP@ss"
 
     },
+    "dnsLabelPrefix": {
+      "value": "classroomTest"
+    },
 
     "ubuntuOSVersion": {
 
