@@ -1,4 +1,4 @@
-VM{
+123VM{
 
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
 
@@ -14,7 +14,7 @@ VM{
 
     "adminPassword": {
 
-      "value": "Aw3someP@ss"
+      "value": "Aw3someP@ss123"
 
     },
     "dnsLabelPrefix": {
