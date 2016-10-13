@@ -14,12 +14,12 @@
         "description": "Password for the virtual machine."
     }
     },
-    "dnsNameForPublicIP": {
-    "type": "string",
-    "metadata": {
-        "description": "Unique DNS name for the public IP used to access the virtual machine."
-    }
-    },
+    // "dnsNameForPublicIP": {
+    // "type": "string",
+    // "metadata": {
+    //     "description": "Unique DNS name for the public IP used to access the virtual machine."
+    // }
+    // },
     "ubuntuOSVersion": {
     "type": "string",
     "defaultValue": "14.04.2-LTS",
