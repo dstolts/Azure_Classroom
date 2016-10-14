@@ -8,7 +8,7 @@
 ##pip3 install msrestazure
 
 
-# In[39]:
+# In[13]:
 
 import json
 
@@ -33,7 +33,7 @@ from azure.mgmt.resource.resources.models import ParametersLink
 from azure.mgmt.resource.resources.models import TemplateLink
 
 
-# In[65]:
+# In[5]:
 
 with open("az_config.json") as data_file:
 
@@ -51,15 +51,18 @@ def get_credentials(config_data):
 
     )
 
+def get_subscription(config_data):
+    return config_data["subscription_id"]
 
-# In[66]:
+
+# In[8]:
 
 credentials = get_credentials(data)
-
+subscription_id = get_subscription(data)
 print("Creds have been delivered from:", credentials.cred_store)
 
 
-# In[67]:
+# In[15]:
 
 client = ResourceManagementClient(
     credentials, 
@@ -67,9 +70,9 @@ client = ResourceManagementClient(
 )
 
 
-# In[68]:
+# In[17]:
 
-group_name = 'classroomRG'
+group_name = 'TestRG1'
 
 resource_group_params = {'location':'eastus'}
 
@@ -79,28 +82,28 @@ client.resource_groups.create_or_update(group_name, resource_group_params)
 print ("Created Resource Group:", group_name)
 
 
-# In[57]:
+# In[18]:
 
-deployment_name = 'testVM1'
+deployment_name = 'testvm'
 
 
-# In[64]:
+# In[20]:
 
 template = TemplateLink(
 
-    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python%20Scripts/azuredeploy.json',
+    uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
 
 )
 
 
 parameters = ParametersLink(
 
-    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python%20Scripts/azuredeploy.parameters.json',
+    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/Heather/createbaseVM/Python/azuredeploy.parameters.json',
 
 )
 
 
-result = resource_client.deployments.create_or_update(
+result = client.deployments.create_or_update(
 
     group_name,
 
