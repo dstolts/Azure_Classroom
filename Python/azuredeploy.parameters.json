@@ -14,17 +14,11 @@
 
     "adminPassword": {
 
-      "value": "Aw3someP@ss"
+      "value": "Aw3someP@ss1234"
 
     },
     "dnsLabelPrefix": {
-      "value": "classroomTest"
-    },
-
-    "ubuntuOSVersion": {
-
-      "value": "14.04.2-LTS"
-
+      "value": "azureclassroomtest"
     }
 
   }
