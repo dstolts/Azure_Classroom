@@ -1,0 +1,68 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/VM_IP.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string"
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_DS1"
+    },
+    "adminUserName": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "networkInterfaceId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-03-30",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "osType": "Linux",
+            "name": "MIT-osDisk.23543dac-a16c-465d-93e3-cf5cace40eb9.vhd",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "https://sto4ob3komixuz3.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/MIT-osDisk.23543dac-a16c-465d-93e3-cf5cace40eb9.vhd"
+            },
+            "vhd": {
+              "uri": "https://sto4ob3komixuz3.blob.core.windows.net/vmcontainer84c21b07-e95c-4152-963b-b979a5be012d/osDisk.84c21b07-e95c-4152-963b-b979a5be012d.vhd"
+            },
+            "caching": "ReadWrite"
+          }
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[parameters('networkInterfaceId')]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "https://clisto683933646basevm.blob.core.windows.net/"
+          }
+        },
+        "provisioningState": 0
+      },
+      "name": "[parameters('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "eastus"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "metadata": {
+        "description": "VM size of new virtual machine that will be deployed from a custom image."
+      }
+    },
+    "newVmName": {
+      "type": "string",
+      "defaultValue": "NewVM",
+      "minLength": 3,
+      "maxLength": 15,
+      "metadata": {
+        "description": "Name of the new VM deployed from the custom image."
+      }
+    },
+    "customImageName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the VHD to be used as source syspreped/generalized image to deploy the VM. E.g. mybaseimage.vhd."
+      }
+    },
+    "adminUserName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the local administrator account, this cannot be Admin, Administrator or root."
+      }
+    },
+    "sshKeyData": {
+      "type": "string",
+      "metadata": {
+        "description": "SSH rsa public key file as a string."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "SSH rsa public key file as a string."
+      }
+    },
+    
+    "vhdStorageAccountContainerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group name of the source storage account."
+      }
+    }
+  },
+  "variables": {
+    "vmCount": 1,
+    "vmNames": [
+      "[parameters('newVmName')]"
+    ],
+    "nicNames": [
+      "[concat(parameters('newVmName'),'Nic')]"
+    ],
+    "storageAccountType": "Standard_LRS",
+    "virtualNetworkName": "vNet",
+    "vnetPrefix": "10.0.0.0/16",
+    "vnetSubnetName1": "LabSubnet",
+    "vnetSubnetPrefix1": "10.0.0.0/24",
+    "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('VirtualNetworkName'))]",
+    "SubnetRef": "[concat(variables('VnetID'), '/subnets/', variables('vnetSubnetName1'))]",
+    "projectName": "201-vm-customimage-new-storageaccount",
+    "publicIpNames": [
+      "[concat(parameters('newVmName'),'PublicIP')]"
+    ],
+    "sshKeyPath": "[concat('/home/',parameters('adminUserName'),'/.ssh/authorized_keys')]"
+  },
+  "resources": [
+    {
+      "comments": "# Virtual Network",
+      "name": "[variables('VirtualNetworkName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "vnet"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vnetPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('vnetSubnetName1')]",
+            "properties": {
+              "addressPrefix": "[variables('vnetSubnetPrefix1')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "# Public IP",
+      "name": "[variables('publicIpNames')[copyIndex()]]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "copy": {
+        "count": "[variables('vmCount')]",
+        "name": "pipCopy"
+      },
+      "tags": {
+        "displayName": "[concat(variables('publicIpNames')[copyIndex()],' Public IP')]"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "comments": "# NICs",
+      "name": "[variables('nicNames')[copyIndex()]]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "copy": {
+        "count": "[variables('vmCount')]",
+        "name": "nicCopy"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('VirtualNetworkName'))]",
+        "pipCopy"
+      ],
+      "tags": {
+        "displayName": "[concat(variables('VMNames')[copyIndex()], ' Network Interface')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('SubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIpNames')[copyIndex()])]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "# New Windows VM based on custom image",
+      "name": "[variables('vmNames')[0]]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('vmNames')[0],'NIC')]"
+      ],
+      "tags": {
+        "displayName": "[variables('VMNames')[0]]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('VMNames')[0]]",
+          "adminUsername": "[parameters('AdminUsername')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "true",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('sshKeyData')]"
+                }
+              ]
+            }
+          }
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "[concat(variables('vmNames')[0],'-osdisk')]",
+            "osType": "linux",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "image": {
+              "uri": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/',parameters('vhdStorageAccountContainerName'),'/',parameters('customImageName'))]"
+            },
+            "vhd": {
+              "uri": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/',parameters('vhdStorageAccountContainerName'),'/',variables('VMNames')[0],'-osdisk.vhd')]"
+            }
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicNames')[0]))]"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
