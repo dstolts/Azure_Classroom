@@ -18,7 +18,7 @@
 
     },
     "dnsLabelPrefix": {
-      "value": "[uniqueString(subscription().subscriptionId)]"
+      "value": [uniqueString(subscription().subscriptionId)]
 
     }
 
