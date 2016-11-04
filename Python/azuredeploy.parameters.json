@@ -16,6 +16,12 @@
 
       "value": "Aw3someP@ss1234"
 
+    },
+    "dnsLabelPrefix":{
+      "value": "azureclassroomtest"
+    },
+    "ubuntuOSVersion":{
+      "value": "14.04.5-LTS"
     }
   }
 
