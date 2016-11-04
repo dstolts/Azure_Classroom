@@ -16,12 +16,7 @@
 
       "value": "Aw3someP@ss1234"
 
-    },
-    "dnsLabelPrefix": {
-      "value": [uniqueString(subscription().subscriptionId)]
-
     }
-
   }
 
 }
