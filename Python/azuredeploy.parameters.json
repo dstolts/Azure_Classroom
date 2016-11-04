@@ -18,7 +18,8 @@
 
     },
     "dnsLabelPrefix": {
-      "value": "azureclassroomtest"
+      "value": "[uniqueString(subscription().subscriptionId)]"
+
     }
 
   }
