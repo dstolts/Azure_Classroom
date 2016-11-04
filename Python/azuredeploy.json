@@ -13,12 +13,7 @@
       "metadata": {
         "description": "Password for the Virtual Machine."
       }
-    },
-    "dnsLabelPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-      }
+    }
     },
     "ubuntuOSVersion": {
       "type": "string",
@@ -35,6 +30,7 @@
     }
   },
   "variables": {
+    "dnslabelprefix": "[uniqueString(subscription().subscriptionId)]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'salinuxvm')]",
     "dataDisk1VhdName": "datadisk1",
     "imagePublisher": "Canonical",
