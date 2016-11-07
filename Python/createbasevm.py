@@ -43,7 +43,7 @@ class LoginFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
         
-        tk.Label(root,text="Please enter your Azure Credentials").pack()
+        Label(root,text="Please enter your Azure Credentials").pack()
         self.label_1 = Label(self, text="Username")
         self.label_2 = Label(self, text="Password")
         self.label_3 = Label(self, text="Subscription Id")
@@ -143,7 +143,7 @@ print("The client was set up")
 
 ##create resource group
 
-group_name = 'TestRG3'
+group_name = 'TestRG4'
 
 resource_group_params = {'location':'eastus'}
 
@@ -166,8 +166,8 @@ deployment_name = 'testvm'
 
 template = TemplateLink(
 
-    uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
-
+    # uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
+    uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/Heather/createbaseVM/Python/azuredeploy.json'
 )
 
 
@@ -177,7 +177,7 @@ parameters = ParametersLink(
 
 )
 
-client.deployments.create_or_update(
+result = client.deployments.create_or_update(
 
     group_name,
 
@@ -194,5 +194,7 @@ client.deployments.create_or_update(
     )
 
 )
+import pprint
+pprint.pprint(result)
 print("Created Deployment:", deployment_name)
 
