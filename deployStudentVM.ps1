@@ -55,8 +55,8 @@ New-AzureRmResourceGroupDeployment @prop
 
 ### Azure Storage Connection and copy ###
 
-#Destination VHD
-$IMAGE_VHD_NAME = "mitstudent.vhd"
+#Destination VHD - Image VHD Name
+$destBlob = "mitstudent.vhd"
 
 #Destination container name
 $destContainerName = "studentimage"
@@ -77,7 +77,7 @@ New-AzureStorageContainer -Name $destContainerName `
 ### Start Asynchronus Copy ###
 $blobcopy = @{
         AbsoluteUri = $2
-        DestBlob = $IMAGE_VHD_NAME
+        DestBlob = $destBlob
         DestContainer = $destContainerName
         DestContext = $destContext
 }
