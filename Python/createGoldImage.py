@@ -1,7 +1,25 @@
 
 # coding: utf-8
+import pip
 
-# In[1]:
+def import_or_install(package):
+    try:
+        __import__(package)
+    except ImportError:
+        pip.main(['install', package])  
+
+
+import_or_install("json")
+import_or_install("azure.common.credentials")
+import_or_install("azure.mgmt.resource")
+import_or_install("azure.mgmt.storage")
+import_or_install("azure.storage")
+import_or_install("azure.mgmt.resource.resources.models")
+import_or_install("azure.storage.blob")
+import_or_install("tkinter")
+import_or_install("tkinter.messagebox")
+import_or_install("pathlib")
+import_or_install("pprint")
 
 import json
 
@@ -12,7 +30,6 @@ from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.storage import StorageManagementClient
 
 from azure.storage import CloudStorageAccount
-# from azure.mgmt.resource.resources.models import ContentSettings
 
 from azure.mgmt.resource.resources.models import ResourceGroup
 
@@ -26,8 +43,6 @@ from azure.mgmt.resource.resources.models import ParametersLink
 from azure.mgmt.resource.resources.models import TemplateLink
 
 
-# In[2]:
-
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.storage import StorageManagementClient
@@ -36,12 +51,10 @@ from azure.mgmt.storage.models import StorageAccountCreateParameters, Sku, SkuNa
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob import PublicAccess
 
-
-# In[ ]:
-
 from tkinter import *
 import tkinter.messagebox as tm
-import json
+
+from pathlib import Path
 
 
 class LoginFrame(Frame):
@@ -108,7 +121,6 @@ def get_subscription(config_data):
 
 ##prompt for credentials
 
-from pathlib import Path
 
 my_file = Path("az_config.json")
 if not my_file.is_file():
@@ -119,19 +131,14 @@ with open("az_config.json") as data_file:
     data = json.load(data_file)
 
 
-# In[4]:
-
 credentials = get_credentials(data)
 subscription_id = get_subscription(data)
 print("Creds have been delivered from:", credentials.cred_store)
 
 
-# In[5]:
 
 compute_client = ComputeManagementClient(credentials, subscription_id)
 
-
-# In[6]:
 
 resource_group_name = "TestRG"
 vm_name = 'MyUbuntuVM'
@@ -139,17 +146,9 @@ result_deallocate = compute_client.virtual_machines.deallocate(resource_group_na
 print("The vm is being deallocated...")
 result_deallocate.wait()
 
-
-
-# In[7]:
-
 # Generalize (possible because deallocated)
 print("The vm is being generalized...")
 compute_client.virtual_machines.generalize(resource_group_name, vm_name)
-
-
-
-# In[8]:
 
 
 # Capture VM (VM must be generalized before)
@@ -165,18 +164,10 @@ async_capture = compute_client.virtual_machines.capture(
         )
 capture_result = async_capture.result()
 
-
-# In[9]:
-
 capture_result
-
-
-# In[10]:
 
 storage_client = StorageManagementClient(credentials, subscription_id)
 
-
-# In[11]:
 
 for item in storage_client.storage_accounts.list_by_resource_group(resource_group_name):
     storage_account_name = item.name
@@ -184,8 +175,6 @@ for item in storage_client.storage_accounts.list_by_resource_group(resource_grou
 storage_account = storage_client.storage_accounts.get_properties(
     resource_group_name, storage_account_name)
 
-
-# In[12]:
 
 ###Begin Storage account copy
 
@@ -196,9 +185,6 @@ storage_keys = {v.key_name: v.value for v in storage_keys.keys}
 storage_key = storage_keys['key1']
 print("The storage key is: " + storage_key)
 
-
-
-# In[13]:
 
 #destination storage account
 destStorageAcct = 'classroomtestimage'

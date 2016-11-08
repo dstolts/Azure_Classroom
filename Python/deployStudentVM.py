@@ -1,8 +1,6 @@
 
 # coding: utf-8
 
-# In[20]:
-
 import pip
 
 def import_or_install(package):
@@ -14,7 +12,6 @@ def import_or_install(package):
 
 
 # In[21]:
-
 import_or_install("json")
 import_or_install("azure.common.credentials")
 import_or_install("azure.mgmt.resource")
@@ -255,7 +252,7 @@ result = client.deployments.create_or_update(
         template_link = template,
         parameters = {
                         "storageAccountType": {
-                          "value": "Premium_LRS"
+                          "value": "Standard_LRS"
                         },
                         "storageAccountName": {
                           "value": azurestoreid
@@ -316,7 +313,7 @@ block_blob_service = BlockBlobService(account_name=destStorageAcct, account_key=
 print("Creating the container...")
 block_blob_service.create_container(destContainerName)
 print("Updating the container access level")
-# block_blob_service.set_container_acl(destContainerName, public_access=PublicAccess.Blob)
+block_blob_service.set_container_acl(destContainerName, public_access=PublicAccess.Container)
 
 
 
