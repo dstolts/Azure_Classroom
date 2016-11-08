@@ -143,11 +143,12 @@ print("The client was set up")
 
 ##create resource group
 
-group_name = 'TestRG4'
+group_name = 'TestRG'
 
 resource_group_params = {'location':'eastus'}
+from azure.storage.blob import PublicAccess
 
-client.resource_groups.create_or_update(group_name, resource_group_params)
+client.resource_groups.create_or_update(group_name, resource_group_params, public_access = PublicAccess.Container)
 
 
 print ("Created Resource Group:", group_name)
@@ -178,6 +179,7 @@ parameters = ParametersLink(
 
 )
 
+
 result = client.deployments.create_or_update(
 
     group_name,
@@ -198,4 +200,8 @@ result = client.deployments.create_or_update(
 import pprint
 pprint.pprint(result)
 print("Created Deployment:", deployment_name)
+print(deployment_name + " is being deployed...")
+result.wait()
+print("The deployment finished successfully")
+
 

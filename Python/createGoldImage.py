@@ -133,7 +133,7 @@ compute_client = ComputeManagementClient(credentials, subscription_id)
 
 # In[6]:
 
-resource_group_name = "TestRG4"
+resource_group_name = "TestRG"
 vm_name = 'MyUbuntuVM'
 result_deallocate = compute_client.virtual_machines.deallocate(resource_group_name, vm_name)
 print("The vm is being deallocated...")
@@ -144,8 +144,9 @@ result_deallocate.wait()
 # In[7]:
 
 # Generalize (possible because deallocated)
-print("The vm is being generalize...")
+print("The vm is being generalized...")
 compute_client.virtual_machines.generalize(resource_group_name, vm_name)
+
 
 
 # In[8]:
@@ -179,6 +180,7 @@ storage_client = StorageManagementClient(credentials, subscription_id)
 
 for item in storage_client.storage_accounts.list_by_resource_group(resource_group_name):
     storage_account_name = item.name
+
 storage_account = storage_client.storage_accounts.get_properties(
     resource_group_name, storage_account_name)
 
@@ -192,7 +194,8 @@ storage_keys = storage_client.storage_accounts.list_keys( resource_group_name, s
 storage_keys = {v.key_name: v.value for v in storage_keys.keys}
 
 storage_key = storage_keys['key1']
-print(storage_key)
+print("The storage key is: " + storage_key)
+
 
 
 # In[13]:
@@ -205,29 +208,37 @@ destStorageAcct = 'classroomtestimage'
 
 # Create Destination Storage account
 
+
+print("Creating the storage account...")
 storage_async_operation = storage_client.storage_accounts.create(
     resource_group_name,
     destStorageAcct,
     StorageAccountCreateParameters(
         sku=Sku(SkuName.standard_lrs),
         kind=Kind.storage,
-        location='eastus'
+        location='eastus',
     )
 )
 storage_account = storage_async_operation.result()
-
+print(storage_account)
 
 # In[15]:
 
 # Source VHD, Container and Blob info
 
+print("Getting the blob URL to copy...")
 srcContainer = "system"
+
 block_blob_service1 = BlockBlobService(account_name=storage_account_name, account_key=storage_key)
-blob_name = "Microsoft.Compute/Images/vhds/pslib-vmTemplate.6169770a-d225-49b7-81e7-b181c27f51e1.json"
 
+generator = block_blob_service1.list_blobs(srcContainer)
+for blob in generator:
+    if 'json' in blob.name:
+        blob_name =blob.name
 blob_url = block_blob_service1.make_blob_url(srcContainer,blob_name)
-
-print(blob_url)
+block_blob_service1.set_container_acl(srcContainer, public_access=PublicAccess.Container)
+print("Updated access policy for source container")
+print("The blob URL to copy is " +  blob_url)
 
 
 # In[16]:
@@ -244,7 +255,7 @@ destStorage_keys = storage_client.storage_accounts.list_keys( resource_group_nam
 destStorage_keys = {v.key_name: v.value for v in destStorage_keys.keys}
 
 destStorage_key = destStorage_keys['key1']
-print(destStorage_key)
+print("The destination storage key is " + destStorage_key)
 
 
 # In[18]:
@@ -259,24 +270,15 @@ block_blob_service2 = BlockBlobService(account_name=destStorageAcct, account_key
 block_blob_service2.create_container(destContainerName, public_access=PublicAccess.Container)
 
 
-# In[20]:
-
-generator = block_blob_service2.list_blobs(destContainerName)
-for blob in generator:
-    print(blob.name)
-
-
 # In[21]:
 
 # Start Asynchronus Copy #
-
+print("Starting azure copy...")
 block_blob_service2.copy_blob(destContainerName, "testBlob.json", blob_url)
 
-
-# In[26]:
-
+print("Azure copy done.")
 generator = block_blob_service2.list_blobs(destContainerName)
 for blob in generator:
     blob_url2 = block_blob_service2.make_blob_url(destContainerName, blob.name)
-    print(blob_url2)
+    print("The new blob url is " + blob_url2)
 
