@@ -7,9 +7,9 @@ Param(
 #$2 = Image URL
 
 #Create UniqueID for StorageAccount
-$athena_user = $env:USERPROFILE.Split('\')[2]
+$uniq_user = $env:USERPROFILE.Split('\')[2]
 $azunique = -join ([char[]](48..57+97..122)*100 | Get-Random -Count 12)
-$azstoreid = $athena_user + $azunique
+$azstoreid = $uniq_user + $azunique
 echo "Your azstoreid is $azstoreid"
 
 # DEBUG then you can test it with...
@@ -35,17 +35,17 @@ Write-Output @"
     }
   }
 } 
-"@ > "templates\MITStorageAcct.parameters.json"
+"@ > "templates\CustStorageAcct.parameters.json"
 
-Write-Output "Created Storage templates\MITStorageAccount.Parameters.json"
+Write-Output "Created Storage templates\CustStorageAcct.Parameters.json"
 
 # New Azure Deployment
 # Splat prop for deployment
 $prop = @{
     Name = "StorDepl";
     ResourceGroupName = $1;
-    TemplateFile = ".\templates\MITStorageAcct.json";
-    TemplateParameterFile = ".\templates\MITStorageAcct.parameters.json"
+    TemplateFile = ".\templates\CustStorageAcct.json";
+    TemplateParameterFile = ".\templates\CustStorageAcct.parameters.json"
 
 }
 
@@ -56,10 +56,10 @@ New-AzureRmResourceGroupDeployment @prop
 ### Azure Storage Connection and copy ###
 
 #Destination VHD - Image VHD Name
-$destBlob = "mitstudent.vhd"
+$destBlob = "customimage.vhd"
 
 #Destination container name
-$destContainerName = "studentimage"
+$destContainerName = "customimage"
 
 #Get Destination storage account key
 $destKey = Get-AzureRmStorageAccountKey $1 $azstoreid
@@ -106,18 +106,18 @@ $destBlob = $storBlob.Name
 $ImageURI = (Get-AzureStorageBlob -Context $destContext -blob $destBlob -Container $destContainerName).ICloudBlob.uri.AbsoluteUri
 Write-output "Your local copy image URI is: $ImageURI"
 
-## Image path for CustomImageName in MIT Gold Parameters JSON Template
+## Image path for CustomImageName in Custom Gold Parameters JSON Template
 #$IMAGE_PATH = $storBlob.Name.Split('/')[3]
 #Write-Output "Your Image Path is: $IMAGE_PATH"
 
-## MIT Gold Parameters Json Creation
+## Custom Gold Parameters Json Creation
 Write-Output @"
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adminUserName": {
-      "value": "mitstudent"
+      "value": "customimage"
     },
     "sshKeyData": {
       "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB0UcT8Fm/mBMKtKzPcBaCVTYA8Ii6MKYPADAWB1lKlw1wG6N+pJdNsvSqb4m7xk/HmtvMojw0CMXKSJdDq/qNprdst3sgnxdCHFhA8eBQc4AFPgg8KkzZ6MLnSfJYwZRDGEe3wjQS480LSazUExGsuQoMxzBRtJsQ02MB/N8ouGrShZp5NK51mjfhlffbkENMQNmhTsfW33ZZP32gLCeXzgZmv/Cwo6144Q4VPUFFl5wl3/VfdGyWLiZyIPGzhU4yPR+ibDxR/X1WQN290y1vAj7tz/qq6XiWYTEAEgsc2NRgiL00CoN3kgBpU8Dh/evm87BDLZ8IYNhWNPIzQV3/ tdradmin@tdrbox"
@@ -133,25 +133,25 @@ Write-Output @"
       "value": "$azstoreid"
     },
     "newVmName": {
-      "value": "StudentVM"
+      "value": "CustomVM"
     },
     "vhdStorageAccountContainerName": {
       "value": "$destContainerName"
     }
    }
 }
-"@ > templates\MITGoldVM.parameters.json
+"@ > templates\CustomGoldVM.parameters.json
 
-Write-Output "Created Storage templates\MITGoldVM.Parameters.json"
-## End MIT Gold Parameters Json Creation
+Write-Output "Created Storage templates\CustomGoldVM.Parameters.json"
+## End Custom Gold Parameters Json Creation
 
 # Begin Azure Deployment Part 2
 # Deployment Splat
 $param = @{
     Name = "VmDepl";
     ResourceGroupName = $1;
-    TemplateFile = ".\templates\MITGoldVM.json";
-    TemplateParameterFile = ".\templates\MITGoldVM.parameters.json"
+    TemplateFile = ".\templates\CustomGoldVM.json";
+    TemplateParameterFile = ".\templates\CustomGoldVM.parameters.json"
 
 }
 
