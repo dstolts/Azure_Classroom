@@ -10,4 +10,6 @@ $fqdn = $nic_name + $pip
 Write-Output "`n"
 Write-Output "`n"
 Write-Output "SSH Connection String: ssh tdradmin@$fqdn"
-Write-Output "Deprovision Command: sudo waagent deprovision+user -force" 
+Write-Output "Deprovision Command: sudo waagent deprovision+user -force"
+
+ 
