@@ -160,13 +160,13 @@ template = TemplateLink(
 
 
     # uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
-    uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/Heather/createbaseVM/Python/azuredeploy.json'
+    uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.json'
 )
 
 
 parameters = ParametersLink(
 
-    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/Heather/createbaseVM/Python/azuredeploy.parameters.json',
+    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.parameters.json',
 
 )
 
