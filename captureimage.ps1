@@ -21,7 +21,7 @@ $get_vm_image_name = $vm.StorageProfile.OsDisk.Name
 
 azure vm deallocate -g $1 -n $2
 azure vm generalize -g $1 -n $2
-azure vm capture $1 $2 MIT -t MIT_Image.json
+azure vm capture $1 $2 Custom -t Custom_Image.json
 
 ### End Azure Capture
 
@@ -42,7 +42,7 @@ $captureDisk = Get-AzureStorageBlob -Container $srcContainer -Context $srcCtx
 $srcBlob = $captureDisk.Name
 
 # Destination Storage Account
-$destStorageAcct = "mittestimagestor"
+$destStorageAcct = "customtestimagestor"
 
 # Create Destination Storage account
 New-AzureRmStorageAccount $1 -SkuName Standard_LRS -Location eastus -Kind Storage $destStorageAcct
