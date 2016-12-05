@@ -1,0 +1,28 @@
+{
+
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+
+  "contentVersion": "1.0.0.0",
+
+  "parameters": {
+
+    "adminUsername": {
+
+      "value": "hshapiro"
+
+    },
+
+    "adminPassword": {
+
+      "value": "Aw3someP@ss1234"
+
+    },
+    "dnsLabelPrefix":{
+      "value": "azureclassroomtest"
+    },
+    "ubuntuOSVersion":{
+      "value": "14.04.5-LTS"
+    }
+  }
+
+}
