@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "How Azure and DevOps Enabled a Major US Research University to Deploy Backend and Student Machines for Class"
-author: "Dan Stolts"
+author: "Dan Stolts", "Heather Shapiro", "Ian Philpot", "Jessica Deen"
 author-link: "#"
-#author-image: "{{ site.baseurl }}/images/authors/photo.jpg"
+#author-image: "{{ site.baseurl }}/images/authors/DanStolts.png"
 date:   2016-12-05
 categories: DevOps
 color: "blue"
