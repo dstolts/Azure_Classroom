@@ -18,12 +18,6 @@
     },
     "dnsLabelPrefix": {
       "value": "classroomTest"
-    },
-
-    "ubuntuOSVersion": {
-
-      "value": "14.04.5-LTS"
-
     }
 
   }

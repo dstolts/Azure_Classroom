@@ -196,8 +196,6 @@ deployment_name = 'testStudentVM'
 template = TemplateLink(
     uri= 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/Jessica/Dev/templates/CustStorageAcct.json'
 
-#     uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
-
 )
 
 
