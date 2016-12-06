@@ -134,22 +134,22 @@ The Azure SDK for Python is a set of libraries which allow you to work on Azure 
 The SDK requires the user to have an Active Directory account created on their Azure subscription. 
 
 To do this:
-•	Login to http://manage.windowsazure.com
-•	Click the button for active directory
-•	Select the default directory
-•	Click Users
-•	Click “Add User” at the bottom
-•	Create a new user in your organization
-o	Give the user Global Admin rights
-•	Note the password for your new user
-•	Go to settings 
-•	Click the Administrator Tab
-•	Select Add at the bottom and enter the new email address that you just created
-o	Select the subscription you want them to be added to
-•	Log out of the Azure portal and relogin with your new Active Directory email
-•	Change your password
-•	Go to settings 
-•	Mark down your subscription id
+- Login to http://manage.windowsazure.com
+- Click the button for active directory
+- Select the default directory
+- Click Users
+- Click “Add User” at the bottom
+- Create a new user in your organization
+ -	Give the user Global Admin rights
+- Note the password for your new user
+- Go to settings 
+- Click the Administrator Tab
+- Select Add at the bottom and enter the new email address that you just created
+ -	Select the subscription you want them to be added to
+- Log out of the Azure portal and relogin with your new Active Directory email
+- Change your password
+- Go to settings 
+- Mark down your subscription id
 
 To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
 
