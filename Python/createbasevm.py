@@ -158,16 +158,14 @@ deployment_name = 'testvm'
 
 template = TemplateLink(
 
-    uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Azure-Cli/templates/SchoolGoldVM.json'
+    uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.json'
 )
-
 
 parameters = ParametersLink(
 
     uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.parameters.json',
 
 )
-
 
 result = client.deployments.create_or_update(
 
