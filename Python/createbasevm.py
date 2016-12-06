@@ -158,8 +158,6 @@ deployment_name = 'testvm'
 
 template = TemplateLink(
 
-
-    # uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
     uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.json'
 )
 

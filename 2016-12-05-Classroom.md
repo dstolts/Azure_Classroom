@@ -127,6 +127,38 @@ The scripts assume you’ve logged into the Azure-CLI and selected the subscript
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
+### Azure SDK for Python
+
+The Azure SDK for Python is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+
+The SDK requires the user to have an Active Directory account created on their Azure subscription. 
+
+To do this:
+- Login to http://manage.windowsazure.com
+- Click the button for active directory
+- Select the default directory
+- Click Users
+- Click “Add User” at the bottom
+- Create a new user in your organization
+ -	Give the user Global Admin rights
+- Note the password for your new user
+- Go to settings 
+- Click the Administrator Tab
+- Select Add at the bottom and enter the new email address that you just created
+ -	Select the subscription you want them to be added to
+- Log out of the Azure portal and relogin with your new Active Directory email
+- Change your password
+- Go to settings 
+- Mark down your subscription id
+
+To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
+
+Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
+
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
+
+
+
 ## General lessons ##
 
 Some key points to consider:
