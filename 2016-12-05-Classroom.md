@@ -36,7 +36,8 @@ This Major US Research University is a world class university that is known for 
 The Institute is an independent, coeducational, privately endowed university, organized into five Schools (architecture and planning; engineering; humanities, arts, and social sciences; management; and science). It has some 1,000 faculty members, more than 11,000 undergraduate and graduate students and more than 130,000 living alumni. They would, for now, prefer to remain annonymous so this document will refer to this University as simply "The University". The University provides its students with a platform to manage their infrastructure, submit homework, collaborate in teams, collaborate with professors. It gives students a single command to run to login to their automatically generated hardware infrastructure, provides students the capability to stand up additional infrastructure so they can thuroughly evaluate the performance of the software they create on different classes of machines and even clusters of servers. A large (6 or more) Teacher Assistants (TA) staff helps students as needed so they are also automatically granted access rights to the machines the students use. These TA's manage many aspects of the class including grading all homework, making sure the students are fully prepared to start class on day 1 with no technical surprises. They also manage the backend infrastructure that are used for submitting homework and exams. 
 
 ## Customer testimony ##
-<iframe src = "https://anonymous"</iframe>
+<iframe src = "https://anonymous"></iframe>
+
 // <iframe src="https://channel9.msdn.com/Series/Customer-Solutions-Workshops/How-Azure-Web-Apps-and-DevOps-help-Roomsy-make-changes-faster-with-lower-risk/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
 
 ## Architecture overview ##
@@ -54,7 +55,6 @@ The Institute is an independent, coeducational, privately endowed university, or
 // The applications use PHP 7.0, CodeIgniter 3.1 PHP framework, and ImageMagic extension with a MySQL back end.
 
 // MySQL connection strings (credentials) are stored in the PHP environment file.
-
 // MySQL databases are 800 MB only and they are growing slowly. 
 // It’s possible to stop the applications for 10-30 minutes in order to update connection strings and finish migration tasks.
 
@@ -83,7 +83,7 @@ Students need access to High Performance computing for performance benchmarking 
 
 From their github repository,  perform pull request, create “Deploy to Azure”
 Create ARM templates to deploy machines to azure
-Create CLI scripts that will run inside the virtual machines that are being deployed.
+(Create CLI scripts that will run inside the virtual machines that are being deployed.
 Copy CLI scripts to deployed VMs  
 Modify existing python script to point to Azure accounts (instead of AWS)
 Create High Performance Cluster of VMs that students will use for performance testing.    
@@ -91,15 +91,13 @@ Create CLI script to launch SSH session to High Performance cluster from student
 Post to github for them to merge into master
 Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
 
-### Migration plan ###
+/### Migration plan ###
 
 ## Continuous Integration plan ##
-
 
 ## Solutions, steps, and delivery ##
 
 ### Classroom Deployment ###
-
 ### Azure Command Line (Azure-Cli)
 
 The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
@@ -110,27 +108,42 @@ Finally, a script the students will run is provided. This script pulls the gold 
 
 ### Azure SDK for Python
 
-The Azure SDK for Python is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
 The SDK requires the user to have an Active Directory account created on their Azure subscription. 
 
 To do this:
 - Login to http://manage.windowsazure.com
-- Click the button for active directory
-- Select the default directory
+- Click the button for active directory and select the Default Directory
+
+![Active Directory](/images/activeDirectory/Step1.png)
+
 - Click Users
+
+![Users](/images/activeDirectory/Step2.png)
+
 - Click “Add User” at the bottom
+
+![Add User](/images/activeDirectory/Step3.png)
 - Create a new user in your organization
  -	Give the user Global Admin rights
-- Note the password for your new user
+ ![Global admin rights](/images/activeDirectory/SetGlobalAdmin.png)
+ - Select Create
+ - Copy the password for your new user
 - Go to settings 
-- Click the Administrator Tab
+ - Click the Administrator Tab 
+ 
+![Settings](/images/activeDirectory/Settings.png)
 - Select Add at the bottom and enter the new email address that you just created
  -	Select the subscription you want them to be added to
+ 
+![Settings]((/images/activeDirectory/addAdmin.png) 
 - Log out of the Azure portal and relogin with your new Active Directory email
 - Change your password
 - Go to settings 
 - Write down your subscription id
+
+![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
 
 To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
 
