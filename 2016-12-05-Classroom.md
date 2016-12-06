@@ -121,29 +121,44 @@ The following processes were included:
 
 Creating a new portal is not challenging. Just make sure to use the same resource group for all components and service plans in the same region (and create a new group for the first portal). For example, we decided to use East US due to customer location:
 
-![Portal creation]( {{ site.baseurl }}/images/roomsy03.png)
+### Azure Command Line (Azure-Cli)
 
-For all portals we could use just one App Service plan. Using the same plan allows us to share resources among all portals. In case we decide to use separate plans for each of the portals, we would be able to make changes through the portal.
+The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
 
-In order to use all needed features, we have to select at least the Standard plan that supports by default things like SSL, deployment slots, and custom domains. 
+The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-Once the portals are deployed, we have some actions to take prior to deployment.
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-One is to make sure that the right version of PHP is selected (7.0 in this case). This is done using the **Application settings** tab.
+### Azure SDK for Python
 
-![Application settings tab]( {{ site.baseurl }}/images/roomsy04.png)
+The Azure SDK for Python is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
-Custom domain and SSL certificate features are available on the Custom domains and SSL tab. In this step we have to upload a certificate only. The domain name should be assigned right before making the solution publicly available. We don’t expect any problems there. We just have to make sure that the certificate and access to the domain settings are available for the migration.
+The SDK requires the user to have an Active Directory account created on their Azure subscription. 
 
-**Note**  Uploading a .pfx certificate at this stage is required. In order to generate a .pfx based on .crt/.cer, it’s possible to use the openssl tool:
+To do this:
+- Login to http://manage.windowsazure.com
+- Click the button for active directory
+- Select the default directory
+- Click Users
+- Click “Add User” at the bottom
+- Create a new user in your organization
+ -	Give the user Global Admin rights
+- Note the password for your new user
+- Go to settings 
+- Click the Administrator Tab
+- Select Add at the bottom and enter the new email address that you just created
+ -	Select the subscription you want them to be added to
+- Log out of the Azure portal and relogin with your new Active Directory email
+- Change your password
+- Go to settings 
+- Mark down your subscription id
 
-```
-openssl pkcs12 -export -out domain.name.pfx -inkey domain.name.key -in domain.name.crt
-```
+To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
 
-At the same time, it’s important to provide a private key that was used for .crt/.cer generation. If the key is lost, the certificate would have to be reissued using a dashboard of the certificate provider.
+Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-![Certificate dashboard]( {{ site.baseurl }}/images/roomsy05.png)
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
+
 
 We will use additional deployment slots to deploy the portals from GitHub to Azure. We use this approach for testing purposes, not just for the migration but for future development as well. Once testing is done, we will be able to swap the slots. So, a new slot should be created for each of the portals. More information about deployment slots is available [here](https://azure.microsoft.com/en-us/documentation/articles/web-sites-staged-publishing/). 
 
