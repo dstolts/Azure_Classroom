@@ -183,37 +183,6 @@ print ("Created Resource Group:", group_name)
 
 import json
 
-# data = {
-#     "storageAccountType": {
-#       "value": "Premium_LRS"
-#     },
-#     "storageAccountName": {
-#       "value": azurestoreid
-#     }
-#   }
-
-# json.dumps(data)
-
-
-# In[31]:
-
-# # import os
-# import_or_install("os")
-# import os
-
-
-# # In[ ]:
-
-# path = "templates/"
-
-# if not os.path.exists(path):
-#     os.makedirs(path)
-
-# filename = "StorageAcct.parameters.json"
-# with open(os.path.join(path, filename), 'w+') as temp_file:
-#     json.dump(data,temp_file)
-# print("Created Storage templates\StorageAccount.Parameters.json")
-
 
 # In[33]:
 
@@ -225,18 +194,11 @@ deployment_name = 'testStudentVM'
 # In[34]:
 
 template = TemplateLink(
-    uri= 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/Jessica/Dev/templates/MITStorageAcct.json'
+    uri= 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/Jessica/Dev/templates/CustStorageAcct.json'
 
 #     uri='https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vm-simple-linux/azuredeploy.json',
 
 )
-
-
-# parameters = ParametersLink(
-
-#     uri='.\templates\StorageAcct.parameters.json',
-
-# )
 
 
 result = client.deployments.create_or_update(
