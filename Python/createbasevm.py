@@ -177,18 +177,8 @@ result = client.deployments.create_or_update(
         mode=DeploymentMode.incremental,
 
         template_link=template,
-        parameters={
-            "adminUsername": {
-                "value": "schoolstudent"
-            },
-            "adminPassword": {
-                "value": "P@ssw0rd"
-            },
-            "dnsLabelPrefix": {
-                "value": "classroomTest"
-            }
-        }
-        # parameters_link=parameters,
+    
+        parameters_link=parameters
     )
 
 )
