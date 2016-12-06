@@ -35,7 +35,7 @@ The project took place over the course of 2 months with the premise of migrating
 
 ## Customer profile ##
 
-This Major US Research University is a world class university that is known for there leading edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overall university in the world.
+This Major US Research University is a world class university that is known for there leading edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overwall university in the world.
 The Institute is an independent, coeducational, privately endowed university, organized into five Schools (architecture and planning; engineering; humanities, arts, and social sciences; management; and science). It has some 1,000 faculty members, more than 11,000 undergraduate and graduate students, and more than 130,000 living alumni. They would, for now, prefer to remain annonymous so this document will refer to this University as simply "The University". The University provides its students with a platform to manage their infrastructure, submit homework, collaborate in teams, collaborate with professors. It gives students a single command to run to login to their automatically generated hardware infrastructure, provides students the capability to stand up additional infrastructure so they can thuroughly evaluate the performance of the software they create on different classes of machines and even clusters of servers. A large (6 or more) Teacher Assistants (TA) staff helps students as needed so they are also automatically granted access rights to the machines the students use. These TA's manage many aspects of the class including grading all homework, making sure the students are fully prepared to start class on day 1 with no technical surprises. They also manage the backend infrastructure that are used for submitting homework and exams. 
 
 ## Customer testimony ##
@@ -119,7 +119,7 @@ The following processes were included:
 
 ### Classroom Deployment ###
 
-Creating a new portal is not challenging. Just make sure to use the same resource group for all components and service plans in the same region (and create a new group for the first portal). For example, it’s possible to use Central Canada as a region but we decided to use West US due to customer locations:
+Creating a new portal is not challenging. Just make sure to use the same resource group for all components and service plans in the same region (and create a new group for the first portal). For example, we decided to use East US due to customer location:
 
 ![Portal creation]( {{ site.baseurl }}/images/roomsy03.png)
 
@@ -170,35 +170,33 @@ At the hackfest, we discovered that all settings would be provided using environ
 
 ### Virtual Network ###
 
-In order to establish connections between Azure Apps and virtual machines using local IP addresses, we will build a virtual network. It’s possible if we configure the network as Point to Site VPN, as shown here:
+In order to establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
+ 
+![Share Same Network]( {{ site.baseurl }}/images/classroom10.png)
 
-![Point to Site VPN]( {{ site.baseurl }}/images/roomsy09.png)
+Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally as we deploy virtual machines we will creat the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
-To configure a virtual gateway and apply Point to Site settings automatically, it’s better to use the App Service interface to create a new one. That has to be done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create at least one Web Application to host one of the web applications and we will be able to use the **Networking** tab to set up a new virtual network:
+![Networking tab]( {{ site.baseurl }}/images/classroom11.png)
 
-![Networking tab]( {{ site.baseurl }}/images/roomsy10.png)
+More details about virtual networks are available [here](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-create-vnet-arm-cli). Notice also that in this article there is a dropdown box to see how to do this on many different platforms.
 
-Using the interface that is embedded to App Service, we will create a network with a gateway. No additional configurations are needed. Just make sure to use this network for all App Services and virtual machines. More details about virtual networks are available [here]( https://azure.microsoft.com/en-us/documentation/articles/web-sites-integrate-with-vnet/).
-
-![Network with gateway]( {{ site.baseurl }}/images/roomsy11.png)
-
-The default address block will be created for all of the Web applications we are going to create. 
-
-Note that it requires about 10-25 minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
+Note that it requires about several minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
 
 Once the virtual network is created, it’s possible to create a virtual machine. In this step you can specify an already existing virtual network:
 
-![Creation of virtual machine]( {{ site.baseurl }}/images/roomsy12.png)
+![Creation of virtual machine]( {{ site.baseurl }}/images/classroom12.png)
 
-Once the virtual machine is created, it’s possible to connect it from Web Apps using a local address. This probably can’t be done by default because no traffic is allowed by default. Therefore, it’s necessary to modify network security group settings for the virtual machine:
+Once the virtual machine is created, it’s possible to connect to the virtual machine with either Remote Desktop Client or SSH depending on the OS. This is possible because when we created the network security group we enable ports 22 and 3389 (RDP):
 
-![Modify network security group settings]( {{ site.baseurl }}/images/roomsy13.png)
+![Modify network security group settings]( {{ site.baseurl }}/images/classroom13.png)
 
-By adding new inbound rules, it’s possible to specify any custom port or select a service from the list. (MySQL was selected in our case.)
+By adding new inbound rules, it’s possible to specify any custom port or select a service from the list. (SSH then RDP was selected in our case.)
 
-Once the port is open, it’s possible to connect the virtual machine from Web Apps using a local IP address.
+Once the port is open, it’s possible to connect the virtual machine using a local IP address.  Most of the machines we created were Linux so our tool of choice for connecting was [PuTTY]( http://www.putty.org/). 
 
-A Kodu panel can be used to test connection status. In order to open the Kodu panel, we can open the Web Apps dashboard and Developer Tools->Advanced Tools menu item:
+
+Dan stopped here!!!
+
 
 ![Test connection status]( {{ site.baseurl }}/images/roomsy14.png)
 
