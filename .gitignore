@@ -4,3 +4,4 @@
 templates/MITGoldVM.parameters.json
 templates/MITStorageAcct.parameters.json
 Python/az_config.json
+Python/az_configStudent.json
