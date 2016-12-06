@@ -1,4 +1,4 @@
-{
+6{
 
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
 
@@ -22,7 +22,7 @@
 
     "ubuntuOSVersion": {
 
-      "value": "14.04.2-LTS"
+      "value": "14.04.5-LTS"
 
     }
 
