@@ -266,7 +266,6 @@ For testing purposes, do not use the database in production. It’s better to cr
 In order to execute the task, we can use Azure Functions, which can run in the same service plan. It’s still not clear how the PHP page is secured; however, we should not have any problems there. The script is not complex. For example, we can use something like this (C#):
 
 ```
-
 using System;
 
 public async static void Run(TimerInfo myTimer, TraceWriter log)
