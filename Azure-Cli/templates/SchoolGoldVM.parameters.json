@@ -1,0 +1,30 @@
+
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUserName": {
+      "value": "schoolstudent"
+    },
+    "sshKeyData": {
+      "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB0UcT8Fm/mBMKtKzPcBaCVTYA8Ii6MKYPADAWB1lKlw1wG6N+pJdNsvSqb4m7xk/HmtvMojw0CMXKSJdDq/qNprdst3sgnxdCHFhA8eBQc4AFPgg8KkzZ6MLnSfJYwZRDGEe3wjQS480LSazUExGsuQoMxzBRtJsQ02MB/N8ouGrShZp5NK51mjfhlffbkENMQNmhTsfW33ZZP32gLCeXzgZmv/Cwo6144Q4VPUFFl5wl3/VfdGyWLiZyIPGzhU4yPR+ibDxR/X1WQN290y1vAj7tz/qq6XiWYTEAEgsc2NRgiL00CoN3kgBpU8Dh/evm87BDLZ8IYNhWNPIzQV3/ tdradmin@tdrbox"
+    },
+    "vmSize": {
+      "value": "Standard_DS1"
+    },
+    
+    "customImageName": {
+      "value": ""
+    },
+    "storageAccountName": {
+      "value": "xyk2onc3pvtt"
+    },
+    "newVmName": {
+      "value": "StudentVM"
+    },
+    "vhdStorageAccountContainerName": {
+      "value": "studentimage"
+    }
+   }
+}
+
