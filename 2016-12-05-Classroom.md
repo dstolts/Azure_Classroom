@@ -12,7 +12,6 @@ excerpt: A Major US Research University US partnered with Microsoft to learn how
 language: English
 verticals: [Business to Business]
 ---
-
 A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consitantly onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. This class could have in excess of 400 students each term so automation was paramount on the needs list. The proof of concept (PoC) project made use of the following services and practices:
 
 - Azure AD Integration
