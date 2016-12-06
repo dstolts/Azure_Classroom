@@ -161,11 +161,11 @@ template = TemplateLink(
     uri = 'https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.json'
 )
 
-parameters = ParametersLink(
+# parameters = ParametersLink(
 
-    uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.parameters.json',
+#     uri='https://raw.githubusercontent.com/dstolts/Azure_Classroom/master/Python/azuredeploy.parameters.json',
 
-)
+# )
 
 result = client.deployments.create_or_update(
 
@@ -179,8 +179,18 @@ result = client.deployments.create_or_update(
 
         template_link=template,
 
-        parameters_link=parameters,
-
+        # parameters_link=parameters,
+        parameters = {
+            "adminUserName": {
+                "value": "schoolstudent"
+            },
+            "adminPassword": {
+                "value": "P@ssw0rd"
+            },
+            "dnsLabelPrefix": {
+                "value": "classroomTest"
+                }
+            }
     )
 
 )
