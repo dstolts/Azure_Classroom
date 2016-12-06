@@ -119,209 +119,45 @@ The following processes were included:
 
 ### Classroom Deployment ###
 
-Creating a new portal is not challenging. Just make sure to use the same resource group for all components and service plans in the same region (and create a new group for the first portal). For example, it’s possible to use Central Canada as a region but we decided to use West US due to customer locations:
+### Azure Command Line (Azure-Cli)
 
-![Portal creation]( {{ site.baseurl }}/images/roomsy03.png)
+The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
 
-For all portals we could use just one App Service plan. Using the same plan allows us to share resources among all portals. In case we decide to use separate plans for each of the portals, we would be able to make changes through the portal.
+The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-In order to use all needed features, we have to select at least the Standard plan that supports by default things like SSL, deployment slots, and custom domains. 
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-Once the portals are deployed, we have some actions to take prior to deployment.
+### Azure SDK for Python
 
-One is to make sure that the right version of PHP is selected (7.0 in this case). This is done using the **Application settings** tab.
+The Azure SDK for Python is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
-![Application settings tab]( {{ site.baseurl }}/images/roomsy04.png)
+The SDK requires the user to have an Active Directory account created on their Azure subscription. 
 
-Custom domain and SSL certificate features are available on the Custom domains and SSL tab. In this step we have to upload a certificate only. The domain name should be assigned right before making the solution publicly available. We don’t expect any problems there. We just have to make sure that the certificate and access to the domain settings are available for the migration.
+To do this:
+- Login to http://manage.windowsazure.com
+- Click the button for active directory
+- Select the default directory
+- Click Users
+- Click “Add User” at the bottom
+- Create a new user in your organization
+ -	Give the user Global Admin rights
+- Note the password for your new user
+- Go to settings 
+- Click the Administrator Tab
+- Select Add at the bottom and enter the new email address that you just created
+ -	Select the subscription you want them to be added to
+- Log out of the Azure portal and relogin with your new Active Directory email
+- Change your password
+- Go to settings 
+- Mark down your subscription id
 
-**Note**  Uploading a .pfx certificate at this stage is required. In order to generate a .pfx based on .crt/.cer, it’s possible to use the openssl tool:
+To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
 
-```
-openssl pkcs12 -export -out domain.name.pfx -inkey domain.name.key -in domain.name.crt
-```
+Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-At the same time, it’s important to provide a private key that was used for .crt/.cer generation. If the key is lost, the certificate would have to be reissued using a dashboard of the certificate provider.
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-![Certificate dashboard]( {{ site.baseurl }}/images/roomsy05.png)
 
-We will use additional deployment slots to deploy the portals from GitHub to Azure. We use this approach for testing purposes, not just for the migration but for future development as well. Once testing is done, we will be able to swap the slots. So, a new slot should be created for each of the portals. More information about deployment slots is available [here](https://azure.microsoft.com/en-us/documentation/articles/web-sites-staged-publishing/). 
-
-Make sure that the slots are created using the same application plan as production so that the slots share resources with components in production. That’s why, if there are any load tests, the test slots should be moved to a separate application plan first. 
-
-![Slot creation]( {{ site.baseurl }}/images/roomsy06.png)
-
-If we were going to use FTP for any tasks, deployment credentials would have to be provided. But we don’t recommend doing this because the most important features are available through a KUDU panel (for example, [https://roomsywebapp1.scm.azurewebsites.net/](https://roomsywebapp1.scm.azurewebsites.net/)). **Deployment source** for the **testing** slot should be configured in order to use GitHub.
-
-**Note** GitHub integration should be activated for the testing slot only. The source should be deployed to the testing slot only. Once all testing activities are completed, it will be possible to switch the testing and production slots. We are not going to set up any deployment sources for production deployment.
-
-![Deployment sources]( {{ site.baseurl }}/images/roomsy07.png)
-
-The applications can potentially have some settings, including a connection string. Using the portal, we can apply environment settings (Application settings), handler mappings, default documents, and a new root folder:
-
-![Application settings]( {{ site.baseurl }}/images/roomsy08.png)
-
-All other PHP settings should be applied manually using standard PHP files. For more information about settings for PHP sites, see the following:
-
-- [https://azure.microsoft.com/en-us/documentation/articles/web-sites-php-configure/](https://azure.microsoft.com/en-us/documentation/articles/web-sites-php-configure/)
-- [https://azure.microsoft.com/en-us/documentation/articles/app-service-web-php-get-started/]( https://azure.microsoft.com/en-us/documentation/articles/app-service-web-php-get-started/)
- 
-At the hackfest, we discovered that all settings would be provided using environment PHP variables. In this case, it’s possible to provide them using the App Settings tab, so it isn’t necessary to edit any files directly. Additionally, it’s possible to provide different settings for testing and production slots (just use the Slot Settings checkbox to freeze a record for any selected slot).
-
-### Virtual Network ###
-
-In order to establish connections between Azure Apps and virtual machines using local IP addresses, we will build a virtual network. It’s possible if we configure the network as Point to Site VPN, as shown here:
-
-![Point to Site VPN]( {{ site.baseurl }}/images/roomsy09.png)
-
-To configure a virtual gateway and apply Point to Site settings automatically, it’s better to use the App Service interface to create a new one. That has to be done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create at least one Web Application to host one of the web applications and we will be able to use the **Networking** tab to set up a new virtual network:
-
-![Networking tab]( {{ site.baseurl }}/images/roomsy10.png)
-
-Using the interface that is embedded to App Service, we will create a network with a gateway. No additional configurations are needed. Just make sure to use this network for all App Services and virtual machines. More details about virtual networks are available [here]( https://azure.microsoft.com/en-us/documentation/articles/web-sites-integrate-with-vnet/).
-
-![Network with gateway]( {{ site.baseurl }}/images/roomsy11.png)
-
-The default address block will be created for all of the Web applications we are going to create. 
-
-Note that it requires about 10-25 minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
-
-Once the virtual network is created, it’s possible to create a virtual machine. In this step you can specify an already existing virtual network:
-
-![Creation of virtual machine]( {{ site.baseurl }}/images/roomsy12.png)
-
-Once the virtual machine is created, it’s possible to connect it from Web Apps using a local address. This probably can’t be done by default because no traffic is allowed by default. Therefore, it’s necessary to modify network security group settings for the virtual machine:
-
-![Modify network security group settings]( {{ site.baseurl }}/images/roomsy13.png)
-
-By adding new inbound rules, it’s possible to specify any custom port or select a service from the list. (MySQL was selected in our case.)
-
-Once the port is open, it’s possible to connect the virtual machine from Web Apps using a local IP address.
-
-A Kodu panel can be used to test connection status. In order to open the Kodu panel, we can open the Web Apps dashboard and Developer Tools->Advanced Tools menu item:
-
-![Test connection status]( {{ site.baseurl }}/images/roomsy14.png)
-
-The Kodu tool allows us to run the console windows in the browser, but a standard ping command doesn’t work there. Instead, it’s possible to use tcpping.exe.
-
-![Using tcpping.exe]( {{ site.baseurl }}/images/roomsy15.png)
-
-### The database migration ###
-
-Microsoft Azure already contains several ready-to-use images for different Linux operating systems. For example, we could use Ubuntu:
-
-![Using Ubuntu]( {{ site.baseurl }}/images/roomsy16.png)
-
-Resource Manager will be used by default to deploy a virtual machine.
-
-Using the wizard, we have to provide some basic parameters on the first step: Name, User Name, SSH public key and Location. The location must be the same (Central Canada, for example) for all services. SSD allows us to get a better performance, which is critical for database solutions.
-
-![Provide parameters]( {{ site.baseurl }}/images/roomsy17.png)
-
-In the second step, we have to select a service plan. In the case of database solutions, we have to select a service plan that supports at least two data disks. Using the disks, we are going to create a RAID 0 array to increase performance. 
-
-Once the plan is selected, we can provide network settings. Here we have to select a virtual network that we created earlier. 
-
-Additionally, we can provide two storage names. It’s better to assign more friendly names in this step. 
-
-![Friendly storage name]( {{ site.baseurl }}/images/roomsy18.png)
-
-Once the virtual machine is created, we can connect to it using Putty or any other SSH client. But before doing that, it’s better to create two data disks for our RAID array. Right after that we can connect the virtual machine and start implementing all configuration tasks.
-
-In the next steps we have to create RAID and “copy” the existing database. 
-In order to create the RAID array, we can refer to the following: 
-
-- [https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-configure-raid/](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-configure-raid/)
-- [https://blogs.msdn.microsoft.com/azureossds/2016/04/25/migrating-mysql-database-from-os-disk-to-data-disk-on-azure-linux-vm/](https://blogs.msdn.microsoft.com/azureossds/2016/04/25/migrating-mysql-database-from-os-disk-to-data-disk-on-azure-linux-vm/)
-
-Additionally, we can use the mysqldump tool to get a current snapshot of the database, so that it doesn’t affect customers. More information about the tool can be found [here](https://blogs.msdn.microsoft.com/drougge/2016/02/25/migrating-mysql-db-to-azure-linux-centos-vm-using-mysqldump-and-scp/). 
-
-Before starting to create any databases, it’s a good idea to generalize the image. It will help us to recreate the virtual machine with all needed settings there. Before generalizing our virtual machine, we have to make sure that RAID 0 is configured, MySQL is installed, and MySQL uses RAID 0 disk to store all database files.
-
-**Note** MySQL stores all DB files on the system disk by default. Therefore, it’s important to change the configuration of MySQL. Follow the guidance here: [https://blogs.msdn.microsoft.com/azureossds/2016/04/25/migrating-mysql-database-from-os-disk-to-data-disk-on-azure-linux-vm/](https://blogs.msdn.microsoft.com/azureossds/2016/04/25/migrating-mysql-database-from-os-disk-to-data-disk-on-azure-linux-vm/)
-
-Finally, we can make a snapshot. The steps on capturing a snapshot can be found here: [https://blogs.technet.microsoft.com/canitpro/2016/08/31/step-by-step-capture-a-linux-vm-image-from-a-running-vm/](https://blogs.technet.microsoft.com/canitpro/2016/08/31/step-by-step-capture-a-linux-vm-image-from-a-running-vm/)
-
-Once we have the snapshot, we can use the following procedure to redeploy our virtual machine based on the snapshot: [https://blogs.technet.microsoft.com/canitpro/2016/09/14/step-by-step-deploy-a-new-linux-vm-from-a-captured-image/](https://blogs.technet.microsoft.com/canitpro/2016/09/14/step-by-step-deploy-a-new-linux-vm-from-a-captured-image/)
-
-**Note** We used only step 2 of this procedure because we already had all other network components.
-
-For testing purposes, do not use the database in production. It’s better to create one more virtual machine. In this case, we can use the cheapest virtual machine without RAID and SSD—just for testing (not performance testing). Make sure the connection string for Testing slots refers to the testing DB.
-
-### Tasks ###
-
-In order to execute the task, we can use Azure Functions, which can run in the same service plan. It’s still not clear how the PHP page is secured; however, we should not have any problems there. The script is not complex. For example, we can use something like this (C#):
-
-```
-
-using System;
-
-public async static void Run(TimerInfo myTimer, TraceWriter log)
-{
-    log.Info($"C# Timer trigger function executed at: {DateTime.Now}");   
-    HttpClient client=new HttpClient();
-    await client.GetAsync("http://www.microsoft.com");
-}
-
-```
-
-### Backup tips ###
-
-We used mysqldump to create the required backups. The script should create a local file. Once the file is created, it should be copied to Azure Blob storage. A cross-platform command line tool can be used for this task. Azure Blob storage should be created (private blob).
-
-### Continuous Integration ###
-
-Roomsy uses a private GitHub repository where it stores the solution code. This provides Roomsy with an affordable way to ensure speed, data integrity, and support for distributed, non-linear workflows.
-
-The master branch of the repo will be pushed to the Dev slot in the Roomsy Resource group. Please note that GitHub integration will be activated for the Dev slot only. Once all testing activities are completed, it will be swapped with the production slots. We are not going to set up any deployment sources for production deployment.
-
-![Deployment slots]( {{ site.baseurl }}/images/roomsy19.png)
-
-![GitHub deployment]( {{ site.baseurl }}/images/roomsy20.png)
-
-![Project and branch]( {{ site.baseurl }}/images/roomsy21.png)
-
-### Infrastructure as Code ###
-
-We split the Infrastructure as Code section into two sections:
-
-- Network configuration
-- Linux/MySQL back end
-
-The network configuration was defined in a JSON template. 
-
-The first template is needed to create the following items in the Resource group:
-
-- Virtual Network.
-- Virtual Network interface card for the Linux host that will run MySQL.
-- Network Security Group that will look incoming ports to SSH (TCP/22) and MySQL (TCP/3306).
-- A public IP address for the MySQL host with DNS name label to avoid hardcoding IP addresses.
-- A Point to Site VPN Gateway to allow the WeApp to connect to the back-end database.
-
-![First template]( {{ site.baseurl }}/images/roomsy22.jpg)
-
-The second JSON template is to deploy a back-end Linux server with a proper RAID configuration to host the DB.
-
-To perform that, we created the server manually, attached two empty 512 GB disks with no cache, [configured the two-2 disk RAID 0 array](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-configure-raid/), installed MySQL, configured MySQL to use the RAID array to store the data, and imported test data from Roomsy’s existing server.
-
-Once the machine was complete and tested, we used the information included in the following posts to capture the machine and generate a JSON file that we modified for our needs:
-
-- [Step-by-Step: Capture a linux VM Image from a running VM](https://blogs.technet.microsoft.com/canitpro/2016/08/31/step-by-step-capture-a-linux-vm-image-from-a-running-vm/)
-- [Step-by-Step: Deploy a new Linux VM from a captured image](https://blogs.technet.microsoft.com/canitpro/2016/09/14/step-by-step-deploy-a-new-linux-vm-from-a-captured-image/)
-
-The modifications done to the JSON files included changing the Login credentials from a Password to a Public Certificate.
-
-In the variable section of the JSON template, we replaced the following parts:
-
-![Replaced parts]( {{ site.baseurl }}/images/roomsy23.png)
-
-We replaced them with:
-
-![New parts]( {{ site.baseurl }}/images/roomsy24.png)
-
-And in the virtual machine resource definition, changed the “osprofile” to: 
-
-![Osprofile change]( {{ site.baseurl }}/images/roomsy25.png)
 
 ## General lessons ##
 
