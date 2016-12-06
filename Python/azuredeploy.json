@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adminusername": {
+    "adminUsername": {
       "type": "string",
       "metadata": {
         "description": "User name for the Virtual Machine."
@@ -140,7 +140,7 @@
         },
         "osProfile": {
           "computerName": "[variables('vmName')]",
-          "adminusername": "[parameters('adminusername')]",
+          "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
@@ -193,7 +193,7 @@
     },
     "sshCommand": {
       "type": "string",
-      "value": "[concat('ssh ', parameters('adminusername'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn)]"
+      "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn)]"
     }
   }
 }
