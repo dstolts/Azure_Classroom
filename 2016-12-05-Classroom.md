@@ -21,10 +21,11 @@ A Major US Research University US partnered with Microsoft to learn how Azure in
 - Monitoring
 - Automated Deployment
 
-The project took place over the course of 2 months with the premise of migrating all infrastrucatue needed to Azure, re-creation of a web portal, and enabling best practices for continuous integration, Automated Deployment and Automated Distruction for when the class ended.  There was also a need to monitor usage patterns to make sure students were not manually standing up significant hardware that would ultimately be charged back to the University.  The hack team was composed of members from both Microsoft and the University and included:
+The project took place over the course of 2 months with the premise of migrating all infrastrucatue needed to Azure, re-creation of a web portal, and enabling best practices for Automated Deployment and Infrastructure as code.  There was also a need to monitor usage patterns and quotas to make sure students were not manually standing up significant hardware that would ultimately be charged back to the University.  The hack team was composed of members from both Microsoft and the University and included:
 
-- A Major US Research University – Professor
-- A Major US Research University - Azure Project Lead and Sr TA
+- Major US Research University – Professor
+- Major US Research University - Azure Project Lead and Sr TA
+- Major US Research University – Many Teacher Assstants (TA) [Masters and Doctoral students]
 - Dan Stolts – Senior Technical Evangelist, Microsoft, [@itproguru](https://twitter.com/itproguru) 
 - Ian Philpot – Senior Technical Evangelist, Microsoft, [@tripdubroot](https://twitter.com/tripdubroot)
 - Heather Shapiro – Technical Evangelist, Microsoft, [@microheather](https://twitter.com/microheather)
@@ -95,11 +96,18 @@ Create CLI script to launch SSH session to High Performance cluster from student
 Post to github for them to merge into master
 Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
 
-/### Migration plan ###
+### Infrastructure as Code ###
+For this project we actually provided many different ways to accomplish the same task.  ajslkdjflasjdflajsdflkjasdlfjl
+- Configure Azure Active Directory
+- Create Network
+- Python Website
+- Azure CLI (with JSON templates)
+- Bash and Azure CLI (without JSON templates)
+- PowerShell
 
-## Continuous Integration plan ##
+### Classroom Deployment ###
 
-## Azure Active Directory
+### Azure Active Directory ###
 Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
 
 In order to set this up, users will need to walk through the following steps:
@@ -135,41 +143,6 @@ In order to set this up, users will need to walk through the following steps:
 
 ![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
 
-
-a## Solutions, steps, and delivery ##
-
-### Classroom Deployment ###
-### Azure Command Line (Azure-Cli)
-
-The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
-
-The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
-
-Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
-
-![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
-
-### Azure SDK for Python
-
-The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
-
-This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
-
-
-####Run the Python scripts
-
-In order to run the scripts,you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
-
-![Terminal](/images/python/commandPrompt.png)
-
-The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
-
-![Login](/images/python/login.PNG)
-
-Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
-
-Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
-
 ### Virtual Network ###
 
 In order to establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
@@ -194,92 +167,73 @@ Once the virtual machine is created, it’s possible to connect to the virtual m
 
 By adding new inbound rules, it’s possible to specify any custom port or select a service from the list. (SSH then RDP was selected in our case.)
 
-Once the port is open, it’s possible to connect the virtual machine using a local IP address.  Most of the machines we created were Linux so our tool of choice for connecting was [PuTTY]( http://www.putty.org/). 
+Once the port is open, it’s possible to connect the virtual machine using an IP address. Most of the machines we created were Linux so our tool of choice for connecting was [PuTTY]( http://www.putty.org/). 
 
 
-##Dan stopped here!!!
+### Azure Command Line (Azure-Cli) using JSON Templates ###
 
+The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
 
-![Test connection status]( {{ site.baseurl }}/images/roomsy14.png)
+The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-The Kodu tool allows us to run the console windows in the browser, but a standard ping command doesn’t work there. Instead, it’s possible to use tcpping.exe.
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-![Using tcpping.exe]( {{ site.baseurl }}/images/roomsy15.png)
+![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
 
+### Azure SDK for Python ###
 
-### Infrastructure as Code ###
+The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
+This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
+
+####Run the Python scripts####
+
+In order to run the scripts,you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
+
+![Terminal](/images/python/commandPrompt.png)
+
+The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
+
+![Login](/images/python/login.PNG)
+
+Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
+
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
+### Bash and Azure CLI (without JSON templates)###
+ Dan Stolts to provide later today 12/7
+
+### PowerShell ###
 For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
 
 - login.ps1
 Logs the user into both Azure CLI and Azure PowerShell.
-![Using login.ps1](/powershell/images/login_example.png)
+![Using login.ps1](/powershell/images/classroom-ps-09-login_example.png)
 
 - createbasevm.ps1
 Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovision command will also be pushed out to the console for the end user to use. 
 
-![Using createbasevm.ps1](/powershell/images/createbasevm_example1.png)
-![Using createbasevm.ps1](/powershell/images/createbasevm_example2.png)
+![Using createbasevm.ps1](/images/powershell/classroom-ps-03-createbasevm_example1.png)
+![Using createbasevm.ps1](/images/powershell/classroom-ps-04-createbasevm_example2.png)
 
 - captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
 
-![Using captureimage.ps1](/powershell/images/captureimage_example1.png)
-![Using captureimage.ps1](/powershell/images/captureimage_example2.png)
+![Using captureimage.ps1](/images/powershell/classroom-ps-01-captureimage_example1.png)
+![Using captureimage.ps1](/images/powershell/classroom-ps-02-captureimage_example2.png)
 
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
 
-![Using deployVM.ps1](/powershell/images/deployVM_example1.png)
-![Using deployVM.ps1](/powershell/images/deployVM_example2.png)
+![Using deployVM.ps1](/images/powershell/classroom-ps-07-deployVM_example1.png)
+![Using deployVM.ps1](/images/powershell/classroom-ps-08-deployVM_example2.png)
 
 - deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
 
-![Using CustStorageAcct.parameters.json](/powershell/images/CustStorageAcct.parameters_example.png)
+![Using CustStorageAcct.parameters.json](/images/powershell/classroom-ps-10-CustStorageAcct.parameters_example.png)
 
 - deployVM.ps1 creates a Custom Gold VM Parameters file as seen below:
 
-![Using CustomGoldVM.Parameters.json](/powershell/images/CustGoldVM.parameters_example.png)
-
-// We split the Infrastructure as Code section into two sections:
-
-// - Network configuration
-// - Linux/MySQL back end
-
-// The network configuration was defined in a JSON template. 
-
-// The first template is needed to create the following items in the Resource group:
-
-// - Virtual Network.
-// - Virtual Network interface card for the Linux host that will run MySQL.
-// - Network Security Group that will look incoming ports to SSH (TCP/22) and MySQL (TCP/3306).
-// - A public IP address for the MySQL host with DNS name label to avoid hardcoding IP addresses.
-// - A Point to Site VPN Gateway to allow the WeApp to connect to the back-end database.
-
-// ![First template]( {{ site.baseurl }}/images/roomsy22.jpg)
-
-// The second JSON template is to deploy a back-end Linux server with a proper RAID configuration to host the DB.
-
-// To perform that, we created the server manually, attached two empty 512 GB disks with no cache, [configured the two-2 disk RAID 0 array](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-configure-raid/), installed MySQL, configured MySQL to use the RAID array to store the data, and imported test data from Roomsy’s existing server.
-
-// Once the machine was complete and tested, we used the information included in the following posts to capture the machine and generate a JSON file that we modified for our needs:
-
-// - [Step-by-Step: Capture a linux VM Image from a running VM](https://blogs.technet.microsoft.com/canitpro/2016/08/31/step-by-step-capture-a-linux-vm-image-from-a-running-vm/)
-// - [Step-by-Step: Deploy a new Linux VM from a captured image](https://blogs.technet.microsoft.com/canitpro/2016/09/14/step-by-step-deploy-a-new-linux-vm-from-a-captured-image/)
-
-// The modifications done to the JSON files included changing the Login credentials from a Password to a Public Certificate.
-
-// In the variable section of the JSON template, we replaced the following parts:
-
-// ![Replaced parts]( {{ site.baseurl }}/images/roomsy23.png)
-
-// We replaced them with:
-
-// ![New parts]( {{ site.baseurl }}/images/roomsy24.png)
-
-// And in the virtual machine resource definition, changed the “osprofile” to: 
-
-// ![Osprofile change]( {{ site.baseurl }}/images/roomsy25.png)
+![Using CustomGoldVM.Parameters.json](/images/powershell/classroom-ps-05-CustGoldVM.parameters_example.png)
 
 ## General lessons ##
 
