@@ -190,6 +190,39 @@ The Kodu tool allows us to run the console windows in the browser, but a standar
 
 ### Infrastructure as Code ###
 
+For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
+
+- login.ps1
+Logs the user into both Azure CLI and Azure PowerShell.
+
+![Using login.ps1]( {{ site.baseurl }}/powershell/images/login_example.png)
+
+- createbasevm.ps1
+Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovision command will also be pushed out to the console for the end user to use. 
+
+![Using createbasevm.ps1]( {{ site.baseurl }}/powershell/images/createbasevm_example1.png)
+![Using createbasevm.ps1]( {{ site.baseurl }}/powershell/images/createbasevm_example2.png)
+
+- captureimage.ps1
+Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
+
+![Using captureimage.ps1]( {{ site.baseurl }}/powershell/images/capturebasevm_example1.png)
+![Using captureimage.ps1]( {{ site.baseurl }}/powershell/images/capturebasevm_example2.png)
+
+- deployVM.ps1
+Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
+
+![Using deployVM.ps1]( {{ site.baseurl }}/powershell/images/deployVM_example1.png)
+![Using deployVM.ps1]( {{ site.baseurl }}/powershell/images/deployVM_example2.png)
+
+- deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
+
+![Using CustStorageAcct.parameters.json]( {{ site.baseurl }}/powershell/images/CustStorageAcct.parameters_example.png)
+
+- deployVM.ps1 creates a Custom Gold VM Parameters file as seen below:
+
+![Using CustomGoldVM.Parameters.json]( {{ site.baseurl }}/powershell/images/CustGoldVM.parameters_example.png)
+
 // We split the Infrastructure as Code section into two sections:
 
 // - Network configuration
