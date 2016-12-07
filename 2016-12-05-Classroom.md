@@ -229,7 +229,7 @@ Uses positional parameters to capture a NEW resource group name and Image URI fr
 
 - deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
 
-![Using CustStorageAcct.parameters.json](/powershell/images/CustStorageAcct.parameters_example.png)
+![Using CustStorageAcct.parameters.json](/images/powershell/classroom-ps-10-CustStorageAcct.parameters_example.png)
 
 - deployVM.ps1 creates a Custom Gold VM Parameters file as seen below:
 
