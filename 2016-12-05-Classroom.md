@@ -3,7 +3,7 @@ layout: post
 title:  "How Azure and DevOps Enabled a Major US Research University to Deploy Backend and Student Machines for Class"
 author: "Dan Stolts, Heather Shapiro, Ian Philpot, Jessica Deen"
 author-link: "#"
-#author-image: "{{ site.baseurl }}/images/authors/authors.png"
+#author-image: "/images/authors/authors.png"
 date:   2016-12-05
 categories: DevOps
 color: "blue"
@@ -38,12 +38,10 @@ The Institute is an independent, coeducational, privately endowed university, or
 
 ## Customer testimony ##
 
-
-
 There were many aspects of this project that gave The University tremendous value.  Some of them included: 
   - Azure Active Directory integration with their organization account
   - Ability for Students to add additional multi-core machines and even clusters of machines for testing
-  - 
+ 
 <iframe src="https://channel9.msdn.com/Series/Customer-Solutions-Workshops/How-Azure-Web-Apps-and-DevOps-help-Roomsy-make-changes-faster-with-lower-risk/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
 
 
@@ -75,7 +73,9 @@ There were many aspects of this project that gave The University tremendous valu
 
 Students need access to High Performance computing for performance benchmarking in the classroom setting.  Due to the nature of the projects and benchmarking in class, these machines and access to other compute resources the students need it is cost effective to run them in the cloud so they can be turned off when not in use.  MIT currently leverages Azure for this purpose.  It is a manual process with each new class to break down the class environment and rebuild for the new class.  MIT needs to significantly streamline and automate this process.  They also have an Azure grant from Microsoft that they would like to leverage for this purpose. Customer also interested in creating a repeatable process for other classes within MIT and other classes in other institutions.
 
-![Creating the value stream map]( {{ site.baseurl }}/images/ValueStreamMapping.jpg)
+### Creating the Value Stream Map
+
+![Creating the value stream map](/images/classroom-01-ValueStreamMapping.jpg)
 // While Dev and Staging environments did exist, they were not utilized in the current process.
 
 // The process can be described in two steps:
@@ -86,21 +86,29 @@ Students need access to High Performance computing for performance benchmarking 
 
 ## Project objectives ##
 
-From their github repository,  perform pull request, create “Deploy to Azure”
-Create ARM templates to deploy machines to azure
-(Create CLI scripts that will run inside the virtual machines that are being deployed.
-Copy CLI scripts to deployed VMs  
-Modify existing python script to point to Azure accounts (instead of AWS)
-Create High Performance Cluster of VMs that students will use for performance testing.    
-Create CLI script to launch SSH session to High Performance cluster from student VM
-Post to github for them to merge into master
-Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
+The original goal for the project was to create a github repository that students and teachers could pull from to deploy Virtual Machines to Azure.
+
+These scripts would: 
+- Create ARM templates to deploy machines to azure
+- Create CLI scripts that will run inside the virtual machines that are being deployed.
+- Copy CLI scripts to deployed VMs  
+- Modify existing python script to point to Azure accounts (instead of AWS)
+- Create High Performance Cluster of VMs that students will use for performance testing.    
+- Create CLI script to launch SSH session to High Performance cluster from student VM
+- Post to github for them to merge into master
+
+
+//Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
+
+
+//From their github repository,  perform pull request, create “Deploy to Azure”
+
 
 ### Infrastructure as Code ###
 For this project we actually provided many different ways to accomplish the same task.  ajslkdjflasjdflajsdflkjasdlfjl
 - Configure Azure Active Directory
 - Create Network
-- Python Website
+- Python (with JSON templates)
 - Azure CLI (with JSON templates)
 - Bash and Azure CLI (without JSON templates)
 - PowerShell
@@ -182,11 +190,15 @@ Finally, a script the students will run is provided. This script pulls the gold 
 
 ### Azure SDK for Python ###
 
-The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+
+Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
+
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
+
+####How to Run the Python scripts####
 
 This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
-
-####Run the Python scripts####
 
 In order to run the scripts,you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
 
@@ -196,9 +208,7 @@ The scripts will ask for your Azure credentials from the new Active Directory ac
 
 ![Login](/images/python/login.PNG)
 
-Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
-Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 ### Bash and Azure CLI (without JSON templates)###
  Dan Stolts to provide later today 12/7
 
