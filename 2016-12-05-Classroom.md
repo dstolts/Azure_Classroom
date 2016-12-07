@@ -69,14 +69,12 @@ The Institute is an independent, coeducational, privately endowed university, or
 Students need access to High Performance computing for performance benchmarking in the classroom setting.  Due to the nature of the projects and benchmarking in class, these machines and access to other compute resources the students need it is cost effective to run them in the cloud so they can be turned off when not in use.  MIT currently leverages Azure for this purpose.  It is a manual process with each new class to break down the class environment and rebuild for the new class.  MIT needs to significantly streamline and automate this process.  They also have an Azure grant from Microsoft that they would like to leverage for this purpose. Customer also interested in creating a repeatable process for other classes within MIT and other classes in other institutions.
 
 ![Creating the value stream map]( {{ site.baseurl }}/images/ValueStreamMapping.jpg)
-
 // While Dev and Staging environments did exist, they were not utilized in the current process.
 
 // The process can be described in two steps:
 
 // - Write code.
 // - Copy code to production servers.
-
 // While this seems to work today, this approach means there is no easy way to back out if a change breaks the production environment. There is no easy way to test new features without impacting the production environment and existing customers. And no way to ensure that availability is maintained since the entire solution currently runs on a single virtual machine.
 
 ## Project objectives ##
@@ -95,7 +93,7 @@ Student authentication should be tied to MIT authentication.  MIT to assist with
 
 ## Continuous Integration plan ##
 
-## Azure Active Directory ##
+## Azure Active Directory
 Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
 
 In order to set this up, users will need to walk through the following steps:
@@ -123,7 +121,7 @@ In order to set this up, users will need to walk through the following steps:
 - Select Add at the bottom and enter the new email address that you just created
  -	Select the subscription you want them to be added to
  
-![addAdmin]((/images/activeDirectory/addAdmin.png) 
+![addAdmin](/images/activeDirectory/addAdmin.png) 
 - Log out of the Azure portal and relogin with your new Active Directory email
 - Change your password
 - Go to settings 
@@ -132,7 +130,7 @@ In order to set this up, users will need to walk through the following steps:
 ![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
 
 
-## Solutions, steps, and delivery ##
+a## Solutions, steps, and delivery ##
 
 ### Classroom Deployment ###
 ### Azure Command Line (Azure-Cli)
@@ -149,7 +147,7 @@ Finally, a script the students will run is provided. This script pulls the gold 
 
 The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
-This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#Azure Active Directory).
+This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
 
 
 ####Run the Python scripts
