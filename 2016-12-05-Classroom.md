@@ -139,7 +139,7 @@ To do this:
 - Select Add at the bottom and enter the new email address that you just created
  -	Select the subscription you want them to be added to
  
-![Settings]((/images/activeDirectory/addAdmin.png) 
+![addAdmin]((/images/activeDirectory/addAdmin.png) 
 - Log out of the Azure portal and relogin with your new Active Directory email
 - Change your password
 - Go to settings 
@@ -147,7 +147,15 @@ To do this:
 
 ![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
 
-To run the scripts, you will need to cd into the proper folder, and run "python *script name*". The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
+####Run the Python scripts
+
+In order to run the scripts,you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
+
+![Terminal](/images/python/commandPrompt.png)
+
+The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
+
+![Login](/images/python/login.PNG)
 
 Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
