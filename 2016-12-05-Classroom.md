@@ -224,8 +224,8 @@ Uses Azure CLI to quickly create a Linux vm using passwordless authentication. T
 - captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
 
-![Using captureimage.ps1](/powershell/images/capturebasevm_example1.png)
-![Using captureimage.ps1](/powershell/images/capturebasevm_example2.png)
+![Using captureimage.ps1](/powershell/images/captureimage_example1.png)
+![Using captureimage.ps1](/powershell/images/captureimage_example2.png)
 
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
