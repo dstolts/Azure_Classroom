@@ -39,6 +39,10 @@ The Institute is an independent, coeducational, privately endowed university, or
 
 ## Customer testimony ##
 
+There were many aspects of this project that gave The University tremendous value.  Some of them included: 
+  - Azure Active Directory integration with their organization account
+  - Ability for Students to add additional multi-core machines and even clusters of machines for testing
+  - 
 <iframe src="https://channel9.msdn.com/Series/Customer-Solutions-Workshops/How-Azure-Web-Apps-and-DevOps-help-Roomsy-make-changes-faster-with-lower-risk/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
 
 
