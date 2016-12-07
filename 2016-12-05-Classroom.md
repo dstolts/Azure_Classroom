@@ -95,26 +95,10 @@ Student authentication should be tied to MIT authentication.  MIT to assist with
 
 ## Continuous Integration plan ##
 
-## Solutions, steps, and delivery ##
+## Azure Active Directory ##
+Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
 
-### Classroom Deployment ###
-### Azure Command Line (Azure-Cli)
-
-The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
-
-The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
-
-Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
-
-![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
-
-### Azure SDK for Python
-
-The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
-
-The SDK requires the user to have an Active Directory account created on their Azure subscription. 
-
-To do this:
+In order to set this up, users will need to walk through the following steps:
 - Login to http://manage.windowsazure.com
 - Click the button for active directory and select the Default Directory
 
@@ -146,6 +130,27 @@ To do this:
 - Write down your subscription id
 
 ![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
+
+
+## Solutions, steps, and delivery ##
+
+### Classroom Deployment ###
+### Azure Command Line (Azure-Cli)
+
+The Azure-CLI provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications. The Azure Classroom project provides a series of scripts based on the Azure-CLI, written in Bash, that will help you create virtual machine images and deploy them for use by students. These scripts should be accessible to users on both Mac OSX and various Linux flavors like Ubuntu or Fedora.
+
+The scripts assume you’ve logged into the Azure-CLI and selected the subscription you want to target. They provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
+
+Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
+
+![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
+
+### Azure SDK for Python
+
+The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are Yalso several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+
+This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#Azure Active Directory).
+
 
 ####Run the Python scripts
 
