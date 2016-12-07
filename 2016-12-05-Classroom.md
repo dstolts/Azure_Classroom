@@ -106,7 +106,7 @@ The scripts assume you’ve logged into the Azure-CLI and selected the subscript
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-![Azure-CLI](/images/activeDirectory/classroom_azure-cli_screenshot.png)
+![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
 
 ### Azure SDK for Python
 
