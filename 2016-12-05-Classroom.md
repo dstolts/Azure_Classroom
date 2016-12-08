@@ -75,14 +75,9 @@ Students need access to High Performance computing for performance benchmarking 
 
 ### Creating the Value Stream Map
 
+Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
+
 ![Creating the value stream map](/images/classroom-01-ValueStreamMapping.jpg)
-// While Dev and Staging environments did exist, they were not utilized in the current process.
-
-// The process can be described in two steps:
-
-// - Write code.
-// - Copy code to production servers.
-// While this seems to work today, this approach means there is no easy way to back out if a change breaks the production environment. There is no easy way to test new features without impacting the production environment and existing customers. And no way to ensure that availability is maintained since the entire solution currently runs on a single virtual machine.
 
 ## Project objectives ##
 
