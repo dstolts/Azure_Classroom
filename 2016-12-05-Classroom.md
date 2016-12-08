@@ -122,7 +122,7 @@ To set this up, users will need to walk through the following steps:
 
 To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
  
-![Share Same Network](/images/classroom10.png)
+![Share Same Network](/images/Classroom10.png)
 
 Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally, as we deploy virtual machines we will create the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
