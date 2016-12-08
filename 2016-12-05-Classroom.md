@@ -8,24 +8,24 @@ date:   2016-12-05
 categories: DevOps
 color: "blue"
 #image: "{{ site.baseurl }}/images/imagename.png" #should be ~350px tall
-excerpt: A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consitantly onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. Read about the solution and how it was implemented. 
+excerpt: A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consistently onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. Read about the solution and how it was implemented. 
 language: English
 verticals: [Business to Business]
 ---
 
-A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consitantly onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. This class could have in excess of 400 students each term so automation was paramount on the needs list. The proof of concept (PoC) project made use of the following services and practices:
+A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consistently onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. This class could have more than 400 students each term so automation was paramount on the needs list. The proof of concept (PoC) project made use of the following services and practices:
 
 - Azure AD Integration
-- Azure Blog Storage
+- Azure Blob Storage
 - Infrastructure as Code
 - Monitoring
 - Automated Deployment
 
-The project took place over the course of 2 months with the premise of migrating all infrastrucatue needed to Azure, re-creation of a web portal, and enabling best practices for Automated Deployment and Infrastructure as code.  There was also a need to monitor usage patterns and quotas to make sure students were not manually standing up significant hardware that would ultimately be charged back to the University.  The hack team was composed of members from both Microsoft and the University and included:
+The project took place over the course of 2 months with the premise of migrating all infrastructure needed to Azure, re-creation of a web portal, and enabling best practices for Automated Deployment and Infrastructure as code.  There was also a need to monitor usage patterns and quotas to make sure students were not manually standing up significant hardware that would ultimately be charged back to the University.  The hack team was composed of members from both Microsoft and the University and included:
 
 - Major US Research University – Professor
 - Major US Research University - Azure Project Lead and Sr TA
-- Major US Research University – Many Teacher Assstants (TA) [Masters and Doctoral students]
+- Major US Research University – Many Teacher Assistants (TA) [Masters and Doctoral students]
 - Dan Stolts – Senior Technical Evangelist, Microsoft, [@itproguru](https://twitter.com/itproguru) 
 - Ian Philpot – Senior Technical Evangelist, Microsoft, [@tripdubroot](https://twitter.com/tripdubroot)
 - Heather Shapiro – Technical Evangelist, Microsoft, [@microheather](https://twitter.com/microheather)
@@ -33,8 +33,8 @@ The project took place over the course of 2 months with the premise of migrating
 
 ## Customer profile ##
 
-This Major US Research University is a world class university that is known for there leading edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overwall university in the world.
-The Institute is an independent, coeducational, privately endowed university, organized into five Schools (architecture and planning; engineering; humanities, arts, and social sciences; management; and science). It has some 1,000 faculty members, more than 11,000 undergraduate and graduate students and more than 130,000 living alumni. They would, for now, prefer to remain annonymous so this document will refer to this University as simply "The University". The University provides its students with a platform to manage their infrastructure, submit homework, collaborate in teams, collaborate with professors. It gives students a single command to run to login to their automatically generated hardware infrastructure, provides students the capability to stand up additional infrastructure so they can thuroughly evaluate the performance of the software they create on different classes of machines and even clusters of servers. A large (6 or more) Teacher Assistants (TA) staff helps students as needed so they are also automatically granted access rights to the machines the students use. These TA's manage many aspects of the class including grading all homework, making sure the students are fully prepared to start class on day 1 with no technical surprises. They also manage the backend infrastructure that are used for submitting homework and exams. 
+This Major US Research University is a world class university that is known for their leading-edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overall university in the world.
+The Institute is an independent, coeducational, privately endowed university, organized into five Schools (architecture and planning; engineering; humanities, arts, and social sciences; management; and science). It has some 1,000 faculty members, more than 11,000 undergraduate and graduate students and more than 130,000 living alumni. They would, for now, prefer to remain anonymous so this document will refer to this University as simply "The University". The University provides its students with a platform to manage their infrastructure, submit homework, collaborate in teams, collaborate with professors. It gives students a single command to run to login to their automatically generated hardware infrastructure, provides students the capability to stand up additional infrastructure so they can thoroughly evaluate the performance of the software they create on different classes of machines and even clusters of servers. A large (6 or more) Teacher Assistants (TA) staff helps students as needed so they are also automatically granted access rights to the machines the students use. These TA's manage many aspects of the class including grading all homework, making sure the students are fully prepared to start class on day 1 with no technical surprises. They also manage the backend infrastructure that are used for submitting homework and exams. 
 
 ## Customer testimony ##
 
@@ -86,7 +86,7 @@ Students need access to High Performance computing for performance benchmarking 
 
 ## Project objectives ##
 
-The original goal for the project was to create a github repository that students and teachers could pull from to deploy Virtual Machines to Azure.
+The original goal for the project was to create a GitHub repository that students and teachers could pull from to deploy Virtual Machines to Azure.
 
 These scripts would: 
 - Create ARM templates to deploy machines to azure
@@ -95,17 +95,17 @@ These scripts would:
 - Modify existing python script to point to Azure accounts (instead of AWS)
 - Create High Performance Cluster of VMs that students will use for performance testing.    
 - Create CLI script to launch SSH session to High Performance cluster from student VM
-- Post to github for them to merge into master
+- Post to GitHub for them to merge into master
 
 
 //Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
 
 
-//From their github repository,  perform pull request, create “Deploy to Azure”
+//From their GitHub repository,  perform pull request, create “Deploy to Azure”
 
 
 ### Infrastructure as Code ###
-For this project we actually provided many different ways to accomplish the same task.  ajslkdjflasjdflajsdflkjasdlfjl
+For this project, we provided many ways to accomplish the same task.  ajslkdjflasjdflajsdflkjasdlfjl
 - Configure Azure Active Directory
 - Create Network
 - Python (with JSON templates)
@@ -118,7 +118,7 @@ For this project we actually provided many different ways to accomplish the same
 ### Azure Active Directory ###
 Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
 
-In order to set this up, users will need to walk through the following steps:
+To set this up, users will need to walk through the following steps:
 - Login to http://manage.windowsazure.com
 - Click the button for active directory and select the Default Directory
 
@@ -144,7 +144,7 @@ In order to set this up, users will need to walk through the following steps:
  -	Select the subscription you want them to be added to
  
 ![addAdmin](/images/activeDirectory/addAdmin.png) 
-- Log out of the Azure portal and relogin with your new Active Directory email
+- Log out of the Azure portal and re-login with your new Active Directory email
 - Change your password
 - Go to settings 
 - Write down your subscription id
@@ -153,11 +153,11 @@ In order to set this up, users will need to walk through the following steps:
 
 ### Virtual Network ###
 
-In order to establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
+To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
  
 ![Share Same Network](/images/classroom10.png)
 
-Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally as we deploy virtual machines we will creat the network interface cards used for the machine. Within the portal we can see graphically what was created. 
+Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally, as we deploy virtual machines we will create the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
 ![Networking tab](/images/classroom11.png)
 
@@ -165,7 +165,7 @@ More details about virtual networks are available [here](https://docs.microsoft.
 
 Note that it requires about several minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
 
-Once the virtual network is created, it’s possible to create a virtual machine. In this step you can specify an already existing virtual network:
+Once the virtual network is created, it’s possible to create a virtual machine. In this step, you can specify an already existing virtual network:
 
 ![Creation of virtual machine](/images/classroom12.png)
 
@@ -190,16 +190,16 @@ Finally, a script the students will run is provided. This script pulls the gold 
 
 ### Azure SDK for Python ###
 
-The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necesssary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
+The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/) is a set of libraries which allow you to work on Azure for management, runtime or data needs. The Azure Classroom project provides a series of scripts using the Azure SDK for Python, that will help teachers and students create virtual machine images and deploy them for use by the students. These scripts will require that the user has Python installed on their computer, which can be downloaded from the [Python site](https://www.python.org/downloads/). There are also several python libraries that are necessary for the scripts to run but the scripts will handle checking for them and installing them if they are not found.
 
-Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
+Like the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 ####How to Run the Python scripts####
 
 This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
 
-In order to run the scripts,you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
+To run the scripts, you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
 
 ![Terminal](/images/python/commandPrompt.png)
 
@@ -217,7 +217,7 @@ Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/image
 
 
 - createbasevm.ps1
-Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovision command will also be pushed out to the console for the end user to use. 
+Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use. 
 
 ![Using createbasevm.ps1](/images/powershell/classroom-ps-03-createbasevm_example1.png)
 ![Using createbasevm.ps1](/images/powershell/classroom-ps-04-createbasevm_example2.png)
@@ -246,17 +246,17 @@ Some key learnings to consider from this process:
   - Each of the different scripting languages proved different challenges and required different levels of authentication.
   - It is important to note that it takes times for each script to complete. Copying an image of the Virtual Machine can take several minutes to finish.
   - Important to understand the process of deprovisioning, generalizing, and capturing the image, otherwise you will not be able to copy the image to a new resource group or account.
-  - In order to copy the "Gold Image", you need to make sure that the original image is public and not a premium_LRS. If it is private, you will not be able to copy the image through scripts.
-  - You can test the JSON templates through Powershell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
+  - To copy the "Gold Image", you need to make sure that the original image is public and not a premium_LRS. If it is private, you will not be able to copy the image through scripts.
+  - You can test the JSON templates through PowerShell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
   - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
   - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
-  - Azure is not well suited for a platform that needs limited variability in job runs.  Eg. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 1.5 seconds. Run it a third time, and it will be another number in between.  The expectation is if you run the same script multiple times you should get the same run time. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more.
+  - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 1.5 seconds. Run it a third time, and it will be another number in between.  The expectation is if you run the same script multiple times you should get the same run time. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more.
   - To share public image files they need to be on HHD instead of SSD
 
 
 
 // - MySQL migration requires some knowledge of operations rather than development. It’s important to understand how to increase performance using RAID and how to use data disks to move database files there.
-// - Thanks to Azure Virtual Network and Point to Site settings (and a Virtual Gateway) there, it’s possible to use Azure Web Apps and virtual machines in the same network to hide virtual machines disabling public IP addresses. It’s really useful in the case of databases.
+// - Thanks to Azure Virtual Network and Point to Site settings (and a Virtual Gateway) there, it’s possible to use Azure Web Apps and virtual machines in the same network to hide virtual machines disabling public IP addresses. It’s useful in the case of databases.
 // - It’s important to divide the migration process into several independent steps due to delays in domain records update. When migrating from third-party services, it’s not always possible to use CName. Therefore, it’s not always possible to use Traffic Manager and migration to production can be challenging.
 // - It’s important to understand the sequence of steps during migration. For example, it’s better to create a Virtual Network using the Azure Web Apps interface than the virtual machine interface. That way, it’s not necessary to reconfigure the network from Site to Site to Point to Site.
 // - Automated testing needs to always be a top priority, from unit tests to integration and load tests. Being confident in the quality of the code should be a prerequisite in order to release it.
