@@ -195,7 +195,6 @@ The [Azure SDK for Python](http://azure-sdk-for-python.readthedocs.io/en/latest/
 Similarly to the Azure CLI scripts, the python scripts provision a VM that is used as what we refer to as a gold image. This is the machine image that will be used for student machines. These images are then generalized and copied into a location that is accessible from other student subscriptions. 
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
-
 ####How to Run the Python scripts####
 
 This SDK requires users to have an Azure AD Account set up. If you have not set one up yet, please see the [Azure Active Directory Section](#azure-active-directory).
@@ -205,7 +204,6 @@ In order to run the scripts,you can use any IDE of your choice. For this example
 ![Terminal](/images/python/commandPrompt.png)
 
 The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
-
 ![Login](/images/python/login.PNG)
 
 
@@ -216,8 +214,7 @@ The scripts will ask for your Azure credentials from the new Active Directory ac
 For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
 
 - login.ps1
-Logs the user into both Azure CLI and Azure PowerShell.
-![Using login.ps1](/images/powershell/classroom-ps-09-login_example.png)
+Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/images/powershell/classroom-ps-09-login_example.png)
 
 - createbasevm.ps1
 Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovision command will also be pushed out to the console for the end user to use. 
@@ -227,7 +224,6 @@ Uses Azure CLI to quickly create a Linux vm using passwordless authentication. T
 
 - captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
-
 ![Using captureimage.ps1](/images/powershell/classroom-ps-01-captureimage_example1.png)
 ![Using captureimage.ps1](/images/powershell/classroom-ps-02-captureimage_example2.png)
 
@@ -247,7 +243,13 @@ Uses positional parameters to capture a NEW resource group name and Image URI fr
 
 ## General lessons ##
 
-// Some key points to consider:
+Some key learnings to consider from this process:
+  - Each of the different scripting languages proved different challenges and required different levels of authentication.
+  - It is important to note that it takes times for each script to complete. Copying an image of the Virtual Machine can take several minutes to finish.
+  - Important to understand the process of deprovisioning, generalizing, and capturing the image.
+  - In order to copy the "Gold Image", you need to make sure that the original image is public and not a premium_LRS. If it is private, you will not be able to copy the image through scripts.
+  -You can test the JSON templates through Powershell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
+
 
 // - MySQL migration requires some knowledge of operations rather than development. It’s important to understand how to increase performance using RAID and how to use data disks to move database files there.
 // - Thanks to Azure Virtual Network and Point to Site settings (and a Virtual Gateway) there, it’s possible to use Azure Web Apps and virtual machines in the same network to hide virtual machines disabling public IP addresses. It’s really useful in the case of databases.
