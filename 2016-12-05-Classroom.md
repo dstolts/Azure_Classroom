@@ -212,9 +212,9 @@ The scripts will ask for your Azure credentials from the new Active Directory ac
 
 ### PowerShell ###
 For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
-
 - login.ps1
 Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/images/powershell/classroom-ps-09-login_example.png)
+
 
 - createbasevm.ps1
 Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovision command will also be pushed out to the console for the end user to use. 
@@ -222,11 +222,10 @@ Uses Azure CLI to quickly create a Linux vm using passwordless authentication. T
 ![Using createbasevm.ps1](/images/powershell/classroom-ps-03-createbasevm_example1.png)
 ![Using createbasevm.ps1](/images/powershell/classroom-ps-04-createbasevm_example2.png)
 
-- captureimage.ps1
+-- captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
 ![Using captureimage.ps1](/images/powershell/classroom-ps-01-captureimage_example1.png)
 ![Using captureimage.ps1](/images/powershell/classroom-ps-02-captureimage_example2.png)
-
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
 
@@ -246,9 +245,14 @@ Uses positional parameters to capture a NEW resource group name and Image URI fr
 Some key learnings to consider from this process:
   - Each of the different scripting languages proved different challenges and required different levels of authentication.
   - It is important to note that it takes times for each script to complete. Copying an image of the Virtual Machine can take several minutes to finish.
-  - Important to understand the process of deprovisioning, generalizing, and capturing the image.
+  - Important to understand the process of deprovisioning, generalizing, and capturing the image, otherwise you will not be able to copy the image to a new resource group or account.
   - In order to copy the "Gold Image", you need to make sure that the original image is public and not a premium_LRS. If it is private, you will not be able to copy the image through scripts.
-  -You can test the JSON templates through Powershell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
+  - You can test the JSON templates through Powershell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
+  - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
+  - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
+  - Azure is not well suited for a platform that needs limited variability in job runs.  Eg. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 1.5 seconds. Run it a third time, and it will be another number in between.  The expectation is if you run the same script multiple times you should get the same run time. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more.
+  - To share public image files they need to be on HHD instead of SSD
+
 
 
 // - MySQL migration requires some knowledge of operations rather than development. It’s important to understand how to increase performance using RAID and how to use data disks to move database files there.
