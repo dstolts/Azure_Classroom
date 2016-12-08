@@ -44,71 +44,43 @@ There were many aspects of this project that gave The University tremendous valu
  
 <iframe src="https://channel9.msdn.com/Series/Customer-Solutions-Workshops/How-Azure-Web-Apps-and-DevOps-help-Roomsy-make-changes-faster-with-lower-risk/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
 
-
-## Architecture overview ##
-
-// Currently Roomsy operates the [http://pagodabox.io/](http://pagodabox.io/) site in a cloud solution for hosting LAMP applications.
-
-// Roomsy’s solution contains three PHP applications and two MySQL databases that are located on the same server. There are also tasks that run once every 15 minutes. The task has to invoke PHP pages in order to invoke some sync mechanisms with external providers like Booking.com or Expedia. The pages are not secured. 
-
-// The list of the applications:
-
-// - Channel Manager (cm.roomsy.com) + two tasks (every 15 minutes)
-// - Roomsy Property Management System/API (api.roomsy.com, pms.roomsy.com + two tasks (hourly and daily)
-// - Roomsy Web Site CMS (pages.roomsy.com)
-
-// The applications use PHP 7.0, CodeIgniter 3.1 PHP framework, and ImageMagic extension with a MySQL back end.
-
-// MySQL connection strings (credentials) are stored in the PHP environment file.
-// MySQL databases are 800 MB only and they are growing slowly. 
-// It’s possible to stop the applications for 10-30 minutes in order to update connection strings and finish migration tasks.
-
-// The Roomsy domain is configured outside pagodabox.io using a third-party domain registrant. Here are the configuration details:
-
-// ![Configuration details]( {{ site.baseurl }}/images/roomsy01.png)
-
-// The pagodabox.io cloud doesn’t support CName for Custom Domain Names, so in order to configure the domain, you have to provide A records only.
- 
 ## Problem statement ##
 
 Students need access to High Performance computing for performance benchmarking in the classroom setting.  Due to the nature of the projects and benchmarking in class, these machines and access to other compute resources the students need it is cost effective to run them in the cloud so they can be turned off when not in use.  MIT currently leverages Azure for this purpose.  It is a manual process with each new class to break down the class environment and rebuild for the new class.  MIT needs to significantly streamline and automate this process.  They also have an Azure grant from Microsoft that they would like to leverage for this purpose. Customer also interested in creating a repeatable process for other classes within MIT and other classes in other institutions.
 
 ### Creating the Value Stream Map
 
+The value stream mapping portion of the project helped The University see the big picture and understand where automation, proper processes, and DevOps practices can improve processes, expand capabilities, decrease setup time, simplify standing up a teaching environment and the value of monitoring the students and the process. 
+
 Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
 
 ![Creating the value stream map](/images/classroom-01-ValueStreamMapping.jpg)
 
+
 ## Project objectives ##
 
-The original goal for the project was to create a GitHub repository that students and teachers could pull from to deploy Virtual Machines to Azure.
+The original goal for the project, after completing the value steam mapping, was to create a GitHub repository that students and teachers could pull from to deploy Virtual Machines to Azure to take advantage of DevOps practices by simplifying and automating everything while splitting the tasks out to standalone small tasks that could easily be run in its own environment.
 
 These scripts would: 
 - Create ARM templates to deploy machines to azure
 - Create CLI scripts that will run inside the virtual machines that are being deployed.
 - Copy CLI scripts to deployed VMs  
 - Modify existing python script to point to Azure accounts (instead of AWS)
-- Create High Performance Cluster of VMs that students will use for performance testing.    
+- Create scalable High Performance Cluster of VMs that students will use for performance testing and submitting homework.    
 - Create CLI script to launch SSH session to High Performance cluster from student VM
 - Post to GitHub for them to merge into master
+- Student authentication should be tied to organization authentication.
 
+## Infrastructure as Code ###
+For this project, we provided many ways to accomplish the same task. This was a requirement because the primary TA is graduating soon and he wanted to setup his predecessor for success.  It also gives the advantage of making different code available for students to use in their platform or language of choice.  The fundamental deployments that were required included: 
 
-//Student authentication should be tied to MIT authentication.  MIT to assist with this part of the project.   They have experience having done it on AWS already. 
-
-
-//From their GitHub repository,  perform pull request, create “Deploy to Azure”
-
-
-### Infrastructure as Code ###
-For this project, we provided many ways to accomplish the same task.  ajslkdjflasjdflajsdflkjasdlfjl
 - Configure Azure Active Directory
 - Create Network
-- Python (with JSON templates)
-- Azure CLI (with JSON templates)
-- Bash and Azure CLI (without JSON templates)
-- PowerShell
-
-### Classroom Deployment ###
+- Create VM's and other related infrastructure in multiple environments
+  - Python (with JSON templates)
+  - Azure CLI (with JSON templates)
+  - Bash and Azure CLI (without JSON templates)
+  - PowerShell
 
 ### Azure Active Directory ###
 Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
@@ -246,21 +218,7 @@ Some key learnings to consider from this process:
   - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
   - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
   - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 1.5 seconds. Run it a third time, and it will be another number in between.  The expectation is if you run the same script multiple times you should get the same run time. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more.
-  - To share public image files they need to be on HHD instead of SSD
-
-
-
-// - MySQL migration requires some knowledge of operations rather than development. It’s important to understand how to increase performance using RAID and how to use data disks to move database files there.
-// - Thanks to Azure Virtual Network and Point to Site settings (and a Virtual Gateway) there, it’s possible to use Azure Web Apps and virtual machines in the same network to hide virtual machines disabling public IP addresses. It’s useful in the case of databases.
-// - It’s important to divide the migration process into several independent steps due to delays in domain records update. When migrating from third-party services, it’s not always possible to use CName. Therefore, it’s not always possible to use Traffic Manager and migration to production can be challenging.
-// - It’s important to understand the sequence of steps during migration. For example, it’s better to create a Virtual Network using the Azure Web Apps interface than the virtual machine interface. That way, it’s not necessary to reconfigure the network from Site to Site to Point to Site.
-// - Automated testing needs to always be a top priority, from unit tests to integration and load tests. Being confident in the quality of the code should be a prerequisite in order to release it.
-// - Automation of the deployment for the development, testing, and production environments provides certitude that standards are maintained and that each environment is true to design and will lower failure risks.
 
 ## Conclusion ##
 
-// We could use both infrastructure as a service (IaaS) and platform as a service (PaaS) approaches to guarantee the best result. Migration to Azure Web Apps is not challenging at all due to PHP 7 support and ability to use the staging environment that is integrated with GitHub. Creating the right virtual machine for MySQL is a little tricky but thanks to the generalization process we could build an image with a proper setup. So, it’s really easy to redeploy the virtual machine.
-
-// The value stream mapping portion of the hack helped Roomsy see the big picture and understand where automation, proper processes, and DevOps practices can mitigate risks and allow for growth.
-
-// A lot of very interesting ideas on how to improve the process were discussed during this Hackfest, some more doable than others. Most importantly, though, Roomsy realized the value of continuously improving and is committed and willing to put a lot of effort into this.
+We used many DevOps capabilities to deliver a fully automated solution to stand up a class of hundreds of students, many TA as well as multiple professors.  The required expectation of being able to use different languages to support different options of the people that would in the future be doing it made it a bit more challenging.  However, the result and open nature of the code can be used by not only any university but any classroom environment.  We see this being used for one day or multiple day workshops, classes that last weeks, months or even years.  It can be used to setup any demo or teaching environment where simplicity of deployment and consistency of process are required.
