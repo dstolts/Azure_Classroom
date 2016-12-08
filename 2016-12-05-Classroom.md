@@ -16,7 +16,7 @@ verticals: [Business to Business]
 A Major US Research University US partnered with Microsoft to learn how Azure infrastructure, a Web App and DevOps best practices could better address their need to quickly, easily and consistently onboard classroom and student infrastructure. This included: backend servers, storage and networking as well as student VMs, organizational authentication, private and public shares for students to use to submit homework or collaborate on teams. This class could have more than 400 students each term so automation was paramount on the needs list. The proof of concept (PoC) project made use of the following services and practices:
 
 - Azure AD Integration
-- Azure Blog Storage
+- Azure Blob Storage
 - Infrastructure as Code
 - Monitoring
 - Automated Deployment
@@ -50,9 +50,12 @@ Students need access to High Performance computing for performance benchmarking 
 
 ### Creating the Value Stream Map
 
+The value stream mapping portion of the project helped The University see the big picture and understand where automation, proper processes, and DevOps practices can improve processes, expand capabilities, decrease setup time, simplify standing up a teaching environment and the value of monitoring the students and the process. 
+
+Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
+
 ![Creating the value stream map](/images/classroom-01-ValueStreamMapping.jpg)
 
-The value stream mapping portion of the project helped The University see the big picture and understand where automation, proper processes, and DevOps practices can improve processes, expand capabilities, decrease setup time, simplify standing up a teaching environment and the value of monitoring the students and the process. 
 
 ## Project objectives ##
 
@@ -70,6 +73,7 @@ These scripts would:
 
 ## Infrastructure as Code ###
 For this project, we provided many ways to accomplish the same task. This was a requirement because the primary TA is graduating soon and he wanted to setup his predecessor for success.  It also gives the advantage of making different code available for students to use in their platform or language of choice.  The fundamental deployments that were required included: 
+
 - Configure Azure Active Directory
 - Create Network
 - Create VM's and other related infrastructure in multiple environments
