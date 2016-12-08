@@ -87,22 +87,6 @@ azure storage blob copy start \
     --dest-container $DEST_CONTAINER \
     --dest-blob $IMAGE_VHD_NAME \
     --dest-connection-string $DEST_CONN
-    
-	"type": "Microsoft.Storage/storageAccounts",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "kind": "Storage",
-            "name": "[parameters('storageAccounts_dlsuxwhett1n9ej_name')]",
-            "apiVersion": "2016-01-01",
-            "location": "eastus",
-            "tags": {},
-            "properties": {},
-            "resources": [],
-            "dependsOn": []
-
-
 
 echo "Copying master image to your loal account..."
 
