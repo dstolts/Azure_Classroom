@@ -91,27 +91,23 @@ For a step by step guide on how to set up an Azure Active Directory Account, ple
 
 To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
  
-![Share Same Network](/images/Classroom10.png)
+![Share Same Network](/images/classroom10-networking.png)
 
 Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally, as we deploy virtual machines we will create the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
-![Networking tab](/images/classroom11.png)
-
 More details about virtual networks are available [here](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-create-vnet-arm-cli). Notice also that in this article there is a dropdown box to see how to do this on many different platforms.
 
-Note that it requires about several minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
+Note that it requires a few minutes to configure a virtual network. **Don’t create any virtual machines before the virtual network is done.**
 
-Once the virtual network is created, it’s possible to create a virtual machine. In this step, you can specify an already existing virtual network:
+After the virtual network is complete, the next step is to create the Network Security Group (NSG). The NSG offers routing with port redirection, port enable, port disable, etc. Think of this as your firewall configuration for the network.  The NSG can be connected to the Subnet of the network, or any of the network interface cards attached to the network. This can be done using any of the languages we covered in this project and more.  The following image shows what it looks like in PowerShell.
 
-![Creation of virtual machine](/images/classroom12.png)
+![Share Same Network](/images/classroom11-nsg.png)
 
-Once the virtual machine is created, it’s possible to connect to the virtual machine with either Remote Desktop Client or SSH depending on the OS. This is possible because when we created the network security group we enable ports 22 and 3389 (RDP):
+Notice the first step is to create the new Network Security Group.  Then, you can add "rules" to the network security group.  For this project, we opened (or exposed) port 22 and port 3389.  Even the Linux student machines may opt to install desktop and xRDP so we wanted it to just work. The same is true for SSH on the Windows machines.  After creating the ports, we then must link the NSG to the subnet or NIC to enable them.
 
-![Modify network security group settings](/images/classroom13.png)
+Once the virtual machine is created, it’s possible to connect to the virtual machine with either Remote Desktop Client or SSH depending on the OS or student preference.  By default, for this project we are only using SSH on Linux and RDP on Windows but you could easily change the default custom image to enable RDP or SSH on both platforms. 
 
-By adding new inbound rules, it’s possible to specify any custom port or select a service from the list. (SSH then RDP was selected in our case.)
-
-Once the port is open, it’s possible to connect the virtual machine using an IP address. Most of the machines we created were Linux so our tool of choice for connecting was [PuTTY]( http://www.putty.org/). 
+Once the port is open and the machine is running, it’s possible to connect the virtual machine using the machine IP address or DNS name. Most of the machines we created were Linux so our tool of choice for connecting was [PuTTY]( http://www.putty.org/).
 
 
 ### Azure Command Line (Azure-Cli) using JSON Templates ###
