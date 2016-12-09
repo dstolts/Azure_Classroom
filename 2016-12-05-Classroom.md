@@ -54,7 +54,7 @@ The value stream mapping portion of the project helped The University see the bi
 
 Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
 
-![Creating the value stream map](/images/classroom-01-ValueStreamMapping.jpg)
+![Creating the value stream map](classroom00-valuestreammapping.jpg)
 
 
 ## Project objectives ##
@@ -118,7 +118,16 @@ The scripts assume you’ve logged into the Azure-CLI and selected the subscript
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-![Azure-CLI](/images/classroom_azure-cli_screenshot.png)
+![Azure-CLI](/images/classroom20-azure-cli_screenshot.png)
+
+### Bash and Azure CLI (without JSON templates)###
+ The TA that was working with us on this found working with JSON templates someone complex.  He asked us to provide a Bash version of the scripts that were a little more simplified; that did not use JSON files. This was easy as we just needed to set parameters and call the functions to create the components.  In the following image you will see that we set a couple order command line paramaters for the Resource Group Name and the Image URL.  If these parameters were not passed, we set a default. NOTE: the default would need to be supplied by using the Output of the createbasevm or captureimage scripts. We also exported these values to environment variables so they could be easily reused by other scripts. 
+ 
+ One important concept to note is on storage.  The storage account name is used for the public DNS name of the storage account.  For this reason, when creating the storage account, we needed to have a UniqueID to minimize the likelyhood of conflict with other public storage account names.  The University already has a 3 letter UniqueID which is stored in an environment variable of the curently logged in user.  When we created the storage, we leveraged this key but since it is only a max of three letters it was not long enough to really be unique.  We created an algorithm to add an addtional 12 character random string using characters "a-z" and "0-9' we added that to the end of the athena_user and saved the output to a variable to use in creating the storage account and also put it out to an enviornment variable called AZURE_UNIQUE_ID. Then we could use that to setup the storage and get an access key.
+
+![Bash Azure-CLI Storage UniqueID](/images/classroom25-bash-create-storageaccountname.png)
+![Bash Azure-CLI Storage UniqueID](/images/classroom26-bash-createstorage-getaccesskey.png)
+
 
 ### Azure SDK for Python ###
 
@@ -139,38 +148,36 @@ The scripts will ask for your Azure credentials from the new Active Directory ac
 ![Login](/images/python/login.PNG)
 
 
-### Bash and Azure CLI (without JSON templates)###
- Dan Stolts to provide later today 12/7
-
 ### PowerShell ###
 For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
 - login.ps1
-Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/images/powershell/classroom-ps-09-login_example.png)
+Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/images/classroom30-ps-login_example.png)
 
 
 - createbasevm.ps1
-Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use. 
+Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. This is not the same key The University used. It is just a sample to make trying it easy. We recommend generating your own keys using a tool like [Azure Key Vault] (https://azure.microsoft.com/en-us/services/key-vault/). [PuTTY]( http://www.putty.org/) is an open source program that can be used to generate keys. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use.  
 
-![Using createbasevm.ps1](/images/powershell/classroom-ps-03-createbasevm_example1.png)
-![Using createbasevm.ps1](/images/powershell/classroom-ps-04-createbasevm_example2.png)
+![Using createbasevm.ps1](/images/classroom31-ps-createbasevm_example1.png)
+![Using createbasevm.ps1](/images/classroom32-ps-createbasevm_example2.png)
 
 -- captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
-![Using captureimage.ps1](/images/powershell/classroom-ps-01-captureimage_example1.png)
-![Using captureimage.ps1](/images/powershell/classroom-ps-02-captureimage_example2.png)
+![Using captureimage.ps1](/images/classroom33-ps-captureimage_example1.png)
+![Using captureimage.ps1](/images/classroom34-ps-captureimage_example2.png)
+
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
 
-![Using deployVM.ps1](/images/powershell/classroom-ps-07-deployVM_example1.png)
-![Using deployVM.ps1](/images/powershell/classroom-ps-08-deployVM_example2.png)
+![Using deployVM.ps1](/images/classroom-ps-07-deployVM_example1.png)
+![Using deployVM.ps1](/images/classroom-ps-08-deployVM_example2.png)
 
 - deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
 
-![Using CustStorageAcct.parameters.json](/images/powershell/classroom-ps-10-CustStorageAcct.parameters_example.png)
+![Using CustStorageAcct.parameters.json](/images/classroom36-ps-CustStorageAcct.parameters_example.png)
 
 - deployVM.ps1 creates a Custom Gold VM Parameters file as seen below:
 
-![Using CustomGoldVM.Parameters.json](/images/powershell/classroom-ps-05-CustGoldVM.parameters_example.png)
+![Using CustomGoldVM.Parameters.json](/images/classroom35-ps-CustGoldVM.parameters_example.png)
 
 ## General lessons ##
 
@@ -182,7 +189,7 @@ Some key learnings to consider from this process:
   - You can test the JSON templates through PowerShell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
   - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
   - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
-  - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 1.5 seconds. Run it a third time, and it will be another number in between.  The expectation is if you run the same script multiple times you should get the same run time. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more.
+  - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 2.8 seconds. Run it a third time, and it will be another number in between.  The University expectation is if you run the same script multiple times you should get the same run time within hundreds of a second. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more. The Azure Engineering team is looking for a offering where they can Disable technologies like "Turbo" which causes this variability in order to give the customer the fastest possible speed for each and every workload. If the host happens to be quiet, the workload will get a big boost, if the host is busy, it could get no boost. The University would rather sacrifice that turbo boost speed to have little or no variability. 
 
 ## Conclusion ##
 
