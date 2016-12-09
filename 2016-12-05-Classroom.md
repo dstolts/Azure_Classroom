@@ -3,7 +3,7 @@ layout: post
 title:  "How Azure and DevOps Enabled a Major US Research University to Deploy Backend and Student Machines for Class"
 author: "Dan Stolts, Heather Shapiro, Ian Philpot, Jessica Deen"
 author-link: "#"
-#author-image: "/images/authors/authors.png"
+#author-image: "{{ site.baseurl }}/images/authors/authors.png"
 date:   2016-12-05
 categories: DevOps
 color: "blue"
@@ -23,17 +23,20 @@ A Major US Research University US partnered with Microsoft to learn how Azure in
 
 The project took place over the course of 2 months with the premise of migrating all infrastructure needed to Azure, re-creation of a web portal, and enabling best practices for Automated Deployment and Infrastructure as code.  There was also a need to monitor usage patterns and quotas to make sure students were not manually standing up significant hardware that would ultimately be charged back to the University.  The hack team was composed of members from both Microsoft and the University and included:
 
-- Major US Research University – Professor
-- Major US Research University - Azure Project Lead and Sr TA
-- Major US Research University – Many Teacher Assistants (TA) [Masters and Doctoral students]
+- Major US University – Professor
+- Major US University - Azure Project Lead and Sr TA
+- Major US University – Many Teacher Assistants (TA) [Masters and Doctoral students]
 - Dan Stolts – Senior Technical Evangelist, Microsoft, [@itproguru](https://twitter.com/itproguru) 
 - Ian Philpot – Senior Technical Evangelist, Microsoft, [@tripdubroot](https://twitter.com/tripdubroot)
 - Heather Shapiro – Technical Evangelist, Microsoft, [@microheather](https://twitter.com/microheather)
 - Jessica Deen – Technical Evangelist, Microsoft, [@jldeen](https://twitter.com/jldeen)
 
+All source code can be found on [github.com/dstolts/Azure_Classroom](http:/github.com/dstolts/Azure_Classroom)
+![github.com/dstolts/Azure_Classroom] ({{ site.baseurl }}/images/classroom99-siteimage.png)
+
 ## Customer profile ##
 
-This Major US Research University is a world class university that is known for their leading-edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overall university in the world.
+This Major US University is a world class university that is known for their leading-edge stance on utilization of technology. They are a Premier Technology School in the world.  Top 5 overall university in the world.
 The Institute is an independent, coeducational, privately endowed university, organized into five Schools (architecture and planning; engineering; humanities, arts, and social sciences; management; and science). It has some 1,000 faculty members, more than 11,000 undergraduate and graduate students and more than 130,000 living alumni. They would, for now, prefer to remain anonymous so this document will refer to this University as simply "The University". The University provides its students with a platform to manage their infrastructure, submit homework, collaborate in teams, collaborate with professors. It gives students a single command to run to login to their automatically generated hardware infrastructure, provides students the capability to stand up additional infrastructure so they can thoroughly evaluate the performance of the software they create on different classes of machines and even clusters of servers. A large (6 or more) Teacher Assistants (TA) staff helps students as needed so they are also automatically granted access rights to the machines the students use. These TA's manage many aspects of the class including grading all homework, making sure the students are fully prepared to start class on day 1 with no technical surprises. They also manage the backend infrastructure that are used for submitting homework and exams. 
 
 ## Customer testimony ##
@@ -55,7 +58,7 @@ The value stream mapping portion of the project helped The University see the bi
 
 Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
 
-![Creating the value stream map](/images/classroom00-valuestreammapping.jpg)
+![Creating the value stream map]({{ site.baseurl }}/images/classroom00-valuestreammapping.jpg)
 
 
 ## Project objectives ##
@@ -91,7 +94,7 @@ For a step by step guide on how to set up an Azure Active Directory Account, ple
 
 To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network. We created this in scripts as seen in the image below which shows the Linux Bash with Azure CLI version of the script.
  
-![Share Same Network](/images/classroom10-networking.png)
+![Share Same Network]({{ site.baseurl }}/images/classroom10-networking.png)
 
 Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally, as we deploy virtual machines we will create the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
@@ -101,7 +104,7 @@ Note that it requires a few minutes to configure a virtual network. **Don’t cr
 
 After the virtual network is complete, the next step is to create the Network Security Group (NSG). The NSG offers routing with port redirection, port enable, port disable, etc. Think of this as your firewall configuration for the network.  The NSG can be connected to the Subnet of the network, or any of the network interface cards attached to the network. This can be done using any of the languages we covered in this project and more.  The following image shows what it looks like in PowerShell.
 
-![Share Same Network](/images/classroom11-nsg.png)
+![Share Same Network]({{ site.baseurl }}/images/classroom11-nsg.png)
 
 Notice the first step is to create the new Network Security Group.  Then, you can add "rules" to the network security group.  For this project, we opened (or exposed) port 22 and port 3389.  Even the Linux student machines may opt to install desktop and xRDP so we wanted it to just work. The same is true for SSH on the Windows machines.  After creating the ports, we then must link the NSG to the subnet or NIC to enable them.
 
@@ -118,16 +121,16 @@ The scripts assume you’ve logged into the Azure-CLI and selected the subscript
 
 Finally, a script the students will run is provided. This script pulls the gold image from the share location into a new storage account in the student’s subscription. It then uses an ARM template that references the gold image to deploy the student VM.
 
-![Azure-CLI](/images/classroom20-azure-cli_screenshot.png)
+![Azure-CLI]({{ site.baseurl }}/images/classroom20-azure-cli_screenshot.png)
 
 ### Bash and Azure CLI (without JSON templates)###
 The TA that was working with us on this found working with JSON templates someone complex.  He asked us to provide a Bash version of the scripts that were a little more simplified; that did not use JSON files. This was easy as we just needed to set parameters and call the functions to create the components.  In the following image you will see that we set a couple order command line paramaters for the Resource Group Name and the Image URL.  If these parameters were not passed, we set a default. NOTE: the default would need to be supplied by using the Output of the createbasevm or captureimage scripts. We also exported these values to environment variables so they could be easily reused by other scripts. 
 
-![Bash Azure-CLI Storage UniqueID](/images/classroom25-bash-create-storageaccountname.png)
+![Bash Azure-CLI Storage UniqueID]({{ site.baseurl }}/images/classroom25-bash-create-storageaccountname.png)
 
 One important concept to note is on storage.  The storage account name is used for the public DNS name of the storage account.  For this reason, when creating the storage account, we needed to have a uniqueid to minimize the likelihood of conflict with other public storage account names.  The University already has a 3 letter uniqueid which is stored in an environment variable of the currently logged in user.  When we created the storage, we leveraged this key but since it is only a max of three letters it was not long enough to be unique in all of Azure.  We created an algorithm to add an additional 12-character random string using characters "a-z" and "0-9" we added that to the end of the "athena_user" and saved the output to a variable to use in creating the storage account. This allowed us to use the variable to setup the storage and get an access key. We also saved the uniqueid out to an environment variable called AZURE_UNIQUE_ID for use in other scripts. 
 
-![Bash Azure-CLI Storage UniqueID](/images/classroom26-bash-createstorage-getaccesskey.png)
+![Bash Azure-CLI Storage UniqueID]({{ site.baseurl }}/images/classroom26-bash-createstorage-getaccesskey.png)
 
 ### Azure SDK for Python ###
 
@@ -142,44 +145,46 @@ This SDK requires users to have an Azure AD Account set up. If you have not set 
 
 To run the scripts, you can use any IDE of your choice. For this example, we use the terminal. After downloading the scripts, you will need to cd into the proper folder, and run "python *script name*".
 
-![Terminal](/images/python/commandPrompt.png)
+![Terminal]({{ site.baseurl }}/images/python/commandPrompt.png)
 
 The scripts will ask for your Azure credentials from the new Active Directory account that was just created. After you do this once, it will create a file for the user with the credentials so that the user does not have to keep entering their information in.
-![Login](/images/python/login.PNG)
+![Login]({{ site.baseurl }}/images/python/login.PNG)
 
 
 ### PowerShell ###
 For the PowerShell Scripts, there are 4 main scripts to build the lab and execute the deployment.
 - login.ps1
-Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/images/classroom30-ps-login_example.png)
+Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1]({{ site.baseurl }}/images/classroom30-ps-login_example.png)
 
 
 - createbasevm.ps1
 Uses Azure CLI to quickly create a Linux vm using certificate instead of password authentication. The pub/private key pair is provided for convenience in the repo. This is not the same key The University used. It is just a sample to make trying it easy. We recommend generating your own keys using a tool like [Azure Key Vault] (https://azure.microsoft.com/en-us/services/key-vault/). [PuTTY]( http://www.putty.org/) is an open source program that can be used to generate keys. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use.  
 
-![Using createbasevm.ps1](/images/classroom32-ps-createbasevm_example2.png)
+![Using createbasevm.ps1]({{ site.baseurl }}/images/classroom31-ps-createbasevm_example1.png)
+![Using createbasevm.ps1]({{ site.baseurl }}/images/classroom32-ps-createbasevm_example2.png)
 
 -- captureimage.ps1
 Uses positional parameters to capture the resource group name and vm name in plain text when executing the PS script. The script will then capture the vm created using the previous createbasevm.ps1 script and copy the image vhd to a public storage account. After the copy completes, an Image URI is printed to the output of the screen for the end user to use with the following script.
 
-![Using captureimage.ps1](/images/classroom33-ps-captureimage_example2.png)
 
-![Using captureimage.ps1](/images/classroom34-ps-captureimage_example1.png)
+![Using captureimage.ps1]({{ site.baseurl }}/images/classroom33-ps-captureimage_example2.png)
+
+![Using captureimage.ps1]({{ site.baseurl }}/images/classroom34-ps-captureimage_example1.png)
 
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
 
-![Using deployVM.ps1](/images/classroom37-ps-deployVM_example1.png)
+![Using deployVM.ps1]({{ site.baseurl }}/images/classroom37-ps-deployVM_example1.png)
 
-![Using deployVM.ps1](/images/classroom38-ps-deployVM_example2.png)
+![Using deployVM.ps1]({{ site.baseurl }}/images/classroom38-ps-deployVM_example2.png)
 
 - deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
 
-![Using CustStorageAcct.parameters.json](/images/classroom36-ps-CustStorageAcct.parameters_example.png)
+![Using CustStorageAcct.parameters.json]({{ site.baseurl }}/images/classroom36-ps-CustStorageAcct.parameters_example.png)
 
 - deployVM.ps1 also creates a Custom Gold VM Parameters file as seen below:
 
-![Using CustomGoldVM.Parameters.json](/images/classroom35-ps-CustGoldVM.parameters_example.png)
+![Using CustomGoldVM.Parameters.json]({{ site.baseurl }}/images/classroom35-ps-CustGoldVM.parameters_example.png)
 
 ## General lessons ##
 
