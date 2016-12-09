@@ -170,8 +170,9 @@ Uses positional parameters to capture the resource group name and vm name in pla
 - deployVM.ps1
 Uses positional parameters to capture a NEW resource group name and Image URI from the 3rd script in plain text when executing the PS script. The script will then copy the VHD from the public storage account to the user's local storage account in their subscription. From there, the script will use the image to complete the deployment using the associated JSON template files, which can be found in the templates folder.
 
-![Using deployVM.ps1](/images/classroom37-deployVM_example1.png)
-![Using deployVM.ps1](/images/classroom38-deployVM_example2.png)
+![Using deployVM.ps1](/images/classroom37-ps-deployVM_example1.png)
+
+![Using deployVM.ps1](/images/classroom38-ps-deployVM_example2.png)
 
 - deployVM.ps1 creates a Custom Storage Account Parameters file as seen below:
 
@@ -192,6 +193,7 @@ Some key learnings to consider from this process:
   - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
   - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
   - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 2.8 seconds. Run it a third time, and it will be another number in between.  The University expectation is if you run the same script multiple times you should get the same run time within hundreds of a second. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more. The Azure Engineering team is looking for an offering or customization that can be made where The University can disable technologies like "Turbo" which causes this variability. The reason there is variability is to give maximum performance available on the hardware. In order to give the customer, the fastest possible speed for each and every workload Turbo is turned on for most class machines including all high-performance class machines which is what the University needs to use. When using Turbo if the host happens to be quiet, the workload will get a big boost of CPU cycles, if the host is busy, it could get no boost. The University would rather sacrifice that turbo boost speed to have little or no variability.
+  - Scripts that do not use JSON can sometimes be easier for customers to read.
 
 ## Conclusion ##
 
