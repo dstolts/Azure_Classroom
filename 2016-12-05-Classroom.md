@@ -85,44 +85,13 @@ For this project, we provided many ways to accomplish the same task. This was a 
 ### Azure Active Directory ###
 Certain SDKs require the user to have an Active Directory account created on their Azure subscription. Setting up an AD account is also important for the customer as it provides the students with a single sign-on (SSO) organizational account. This allows them to access all applications within the Active Directory Tenant with the same credentials. 
 
-To set up an account, users will need to walk through the following steps:
-- Login to http://manage.windowsazure.com
-- Click the button for active directory and select the Default Directory
-
-![Active Directory](/images/activeDirectory/Step1.png)
-
-- Click Users
-
-![Users](/images/activeDirectory/Step2.png)
-
-- Click “Add User” at the bottom
-
-![Add User](/images/activeDirectory/Step3.png)
-- Create a new user in your organization
- -	Give the user Global Admin rights
- ![Global admin rights](/images/activeDirectory/SetGlobalAdmin.png)
- - Select Create
- - Copy the password for your new user
-- Go to settings 
- - Click the Administrator Tab 
- 
-![Settings](/images/activeDirectory/Settings.png)
-- Select Add at the bottom and enter the new email address that you just created
- -	Select the subscription you want them to be added to
- 
-![addAdmin](/images/activeDirectory/addAdmin.png) 
-- Log out of the Azure portal and re-login with your new Active Directory email
-- Change your password
-- Go to settings 
-- Write down your subscription id
-
-![SubscriptionID](/images/activeDirectory/SubscriptionID.png) 
+For a step by step guide on how to set up an Azure Active Directory Account, please use this [tutorial](http://microheather.com/setting-up-azure-ad-to-use-with-azure-sdks/).
 
 ### Virtual Network ###
 
 To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
  
-![Share Same Network](/images/classroom10.png)
+![Share Same Network](/images/Classroom10.png)
 
 Creating the network is done prior to creation of any virtual machines. Of course, it’s possible to reconfigure any existing virtual network but it requires PowerShell knowledge or access to the old portal. So, prior to creating any virtual machines, we will create the network, subnet and network security group.  Finally, as we deploy virtual machines we will create the network interface cards used for the machine. Within the portal we can see graphically what was created. 
 
