@@ -31,8 +31,9 @@ The project took place over the course of 2 months with the premise of migrating
 - Heather Shapiro – Technical Evangelist, Microsoft, [@microheather](https://twitter.com/microheather)
 - Jessica Deen – Technical Evangelist, Microsoft, [@jldeen](https://twitter.com/jldeen)
 
-All source code can be found on [github.com/dstolts/Azure_Classroom](http:/github.com/dstolts/Azure_Classroom)
-![github.com/dstolts/Azure_Classroom] ({{ site.baseurl }}/images/classroom99-siteimage.png)
+All source code can be found on [github](http:/github.com/dstolts/Azure_Classroom)
+
+![Azure_Classroom on Github]({{ site.baseurl }}/images/classroom99-siteimage.png)
 
 ## Customer profile ##
 
