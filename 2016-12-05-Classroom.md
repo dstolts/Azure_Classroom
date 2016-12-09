@@ -83,7 +83,7 @@ For this project, we provided many ways to accomplish the same task. This was a 
   - PowerShell
 
 ### Azure Active Directory ###
-Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
+Certain SDKs require the user to have an Active Directory account created on their Azure subscription. Setting up an AD account is also important for the customer as it provides the students with a single sign-on (SSO) organizational account. This allows them to access all applications within the Active Directory Tenant with the same credentials. 
 
 For a step by step guide on how to set up an Azure Active Directory Account, please use this [tutorial](http://microheather.com/setting-up-azure-ad-to-use-with-azure-sdks/).
 
