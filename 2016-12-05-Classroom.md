@@ -83,9 +83,9 @@ For this project, we provided many ways to accomplish the same task. This was a 
   - PowerShell
 
 ### Azure Active Directory ###
-Certain SDKs require the user to have an Active Directory account created on their Azure subscription. 
+Certain SDKs require the user to have an Active Directory account created on their Azure subscription. Setting up an AD account is also important for the customer as it provides the students with a single sign-on (SSO) organizational account. This allows them to access all applications within the Active Directory Tenant with the same credentials. 
 
-To set this up, users will need to walk through the following steps:
+To set up an account, users will need to walk through the following steps:
 - Login to http://manage.windowsazure.com
 - Click the button for active directory and select the Default Directory
 
