@@ -157,7 +157,6 @@ Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/image
 - createbasevm.ps1
 Uses Azure CLI to quickly create a Linux vm using certificate instead of password authentication. The pub/private key pair is provided for convenience in the repo. This is not the same key The University used. It is just a sample to make trying it easy. We recommend generating your own keys using a tool like [Azure Key Vault] (https://azure.microsoft.com/en-us/services/key-vault/). [PuTTY]( http://www.putty.org/) is an open source program that can be used to generate keys. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use.  
 
-![Using createbasevm.ps1](/images/classroom31-ps-createbasevm_example1.png)
 ![Using createbasevm.ps1](/images/classroom32-ps-createbasevm_example2.png)
 
 -- captureimage.ps1
