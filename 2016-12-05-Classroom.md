@@ -41,8 +41,9 @@ The Institute is an independent, coeducational, privately endowed university, or
 There were many aspects of this project that gave The University tremendous value.  Some of them included: 
   - Azure Active Directory integration with their organization account
   - Ability for Students to add additional multi-core machines and even clusters of machines for testing
- 
-<iframe src="https://channel9.msdn.com/Series/Customer-Solutions-Workshops/How-Azure-Web-Apps-and-DevOps-help-Roomsy-make-changes-faster-with-lower-risk/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
+  - Ability to automate everything and provide a simple onramp for students
+  - Ability to setup quotas for student and monitor how they are doing against their quotas
+  - onramp a new class in hours instead of weeks
 
 ## Problem statement ##
 
@@ -54,12 +55,12 @@ The value stream mapping portion of the project helped The University see the bi
 
 Value Stream Maps are a great vehicle to understand an existing workflow and to decide what on what areas to focus improvement on. The diagram below is an example classroom development environment. The area inside the dashed box, "Build VMs", is the student environment. One machine is a "jump box" used for development, the other staging environment for building the application. The student submits a Job message to the Job Cluster. The job cluster runs various tests and the students grade gets calculated.
 
-![Creating the value stream map](classroom00-valuestreammapping.jpg)
+![Creating the value stream map](/images/classroom00-valuestreammapping.jpg)
 
 
 ## Project objectives ##
 
-The original goal for the project, after completing the value steam mapping, was to create a GitHub repository that students and teachers could pull from to deploy Virtual Machines to Azure to take advantage of DevOps practices by simplifying and automating everything while splitting the tasks out to standalone small tasks that could easily be run in its own environment.
+The original goal for the project, after completing the value steam mapping, was to create a GitHub repository that students and teachers could pull from to deploy Virtual Machines to Azure to take advantage of DevOps practices by simplifying and automating everything while splitting the tasks out to standalone small tasks that could easily be run in its own environment. The University found that 100% of this could be automated so the TA could simply email the students a link to login to the web app, login with their own organizational credentials, they could then automatically login to their machine using certificate based authentication.  The students were also being given bash script (.sh) file in their standard working classroom folder that they could run to login to their Azure VM at any time. 
 
 These scripts would: 
 - Create ARM templates to deploy machines to azure
@@ -83,13 +84,12 @@ For this project, we provided many ways to accomplish the same task. This was a 
   - PowerShell
 
 ### Azure Active Directory ###
-Certain SDKs require the user to have an Active Directory account created on their Azure subscription. Setting up an AD account is also important for the customer as it provides the students with a single sign-on (SSO) organizational account. This allows them to access all applications within the Active Directory Tenant with the same credentials. 
-
+Certain SDKs require the user to have an Active Directory account created on their Azure subscription. The University is already on Office365 for all staff and students.  They already have this Azure Active Directory configured to allow everyone to login with organization (.edu) credentials. For organizations that do not already have this setup and running it is very easy to setup using Azure Active Directory.  An AD account is also important for the customer as it provides the students with a single sign-on (SSO) organizational account. This allows them to access all applications within the Active Directory Tenant with the same credentials. 
 For a step by step guide on how to set up an Azure Active Directory Account, please use this [tutorial](http://microheather.com/setting-up-azure-ad-to-use-with-azure-sdks/).
 
 ### Virtual Network ###
 
-To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network which we created in scripts as seen in the image which shows the Linux Bash with Azure CLI version of the script.
+To establish connections between student machines and the private and public shares as well as to allow the students to collaborate or share their machine with other students or TA's we created virtual machines on the same network. We created this in scripts as seen in the image below which shows the Linux Bash with Azure CLI version of the script.
  
 ![Share Same Network](/images/classroom10-networking.png)
 
@@ -121,13 +121,13 @@ Finally, a script the students will run is provided. This script pulls the gold 
 ![Azure-CLI](/images/classroom20-azure-cli_screenshot.png)
 
 ### Bash and Azure CLI (without JSON templates)###
- The TA that was working with us on this found working with JSON templates someone complex.  He asked us to provide a Bash version of the scripts that were a little more simplified; that did not use JSON files. This was easy as we just needed to set parameters and call the functions to create the components.  In the following image you will see that we set a couple order command line paramaters for the Resource Group Name and the Image URL.  If these parameters were not passed, we set a default. NOTE: the default would need to be supplied by using the Output of the createbasevm or captureimage scripts. We also exported these values to environment variables so they could be easily reused by other scripts. 
- 
- One important concept to note is on storage.  The storage account name is used for the public DNS name of the storage account.  For this reason, when creating the storage account, we needed to have a UniqueID to minimize the likelyhood of conflict with other public storage account names.  The University already has a 3 letter UniqueID which is stored in an environment variable of the curently logged in user.  When we created the storage, we leveraged this key but since it is only a max of three letters it was not long enough to really be unique.  We created an algorithm to add an addtional 12 character random string using characters "a-z" and "0-9' we added that to the end of the athena_user and saved the output to a variable to use in creating the storage account and also put it out to an enviornment variable called AZURE_UNIQUE_ID. Then we could use that to setup the storage and get an access key.
+The TA that was working with us on this found working with JSON templates someone complex.  He asked us to provide a Bash version of the scripts that were a little more simplified; that did not use JSON files. This was easy as we just needed to set parameters and call the functions to create the components.  In the following image you will see that we set a couple order command line paramaters for the Resource Group Name and the Image URL.  If these parameters were not passed, we set a default. NOTE: the default would need to be supplied by using the Output of the createbasevm or captureimage scripts. We also exported these values to environment variables so they could be easily reused by other scripts. 
 
 ![Bash Azure-CLI Storage UniqueID](/images/classroom25-bash-create-storageaccountname.png)
-![Bash Azure-CLI Storage UniqueID](/images/classroom26-bash-createstorage-getaccesskey.png)
 
+One important concept to note is on storage.  The storage account name is used for the public DNS name of the storage account.  For this reason, when creating the storage account, we needed to have a uniqueid to minimize the likelihood of conflict with other public storage account names.  The University already has a 3 letter uniqueid which is stored in an environment variable of the currently logged in user.  When we created the storage, we leveraged this key but since it is only a max of three letters it was not long enough to be unique in all of Azure.  We created an algorithm to add an additional 12-character random string using characters "a-z" and "0-9" we added that to the end of the "athena_user" and saved the output to a variable to use in creating the storage account. This allowed us to use the variable to setup the storage and get an access key. We also saved the uniqueid out to an environment variable called AZURE_UNIQUE_ID for use in other scripts. 
+
+![Bash Azure-CLI Storage UniqueID](/images/classroom26-bash-createstorage-getaccesskey.png)
 
 ### Azure SDK for Python ###
 
@@ -155,7 +155,7 @@ Logs the user into both Azure CLI and Azure PowerShell.![Using login.ps1](/image
 
 
 - createbasevm.ps1
-Uses Azure CLI to quickly create a Linux vm using passwordless authentication. The pub/private key pair is provided for convenience in the repo. This is not the same key The University used. It is just a sample to make trying it easy. We recommend generating your own keys using a tool like [Azure Key Vault] (https://azure.microsoft.com/en-us/services/key-vault/). [PuTTY]( http://www.putty.org/) is an open source program that can be used to generate keys. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use.  
+Uses Azure CLI to quickly create a Linux vm using certificate instead of password authentication. The pub/private key pair is provided for convenience in the repo. This is not the same key The University used. It is just a sample to make trying it easy. We recommend generating your own keys using a tool like [Azure Key Vault] (https://azure.microsoft.com/en-us/services/key-vault/). [PuTTY]( http://www.putty.org/) is an open source program that can be used to generate keys. Upon successful completion, the SSH connection string and deprovisioning command will also be pushed out to the console for the end user to use.  
 
 ![Using createbasevm.ps1](/images/classroom31-ps-createbasevm_example1.png)
 ![Using createbasevm.ps1](/images/classroom32-ps-createbasevm_example2.png)
@@ -189,7 +189,7 @@ Some key learnings to consider from this process:
   - You can test the JSON templates through PowerShell by logging into your Azure account and running `Test-AzureRmResourceGroupDeployment -ResourceGroupName <String> -TemplateFile <String> `
   - In some situations, it is required to get Azure Engineering team involved so they confirm limitations and take feedback for making the product better.
   - The TA’s in a class are great partners for helping with student onboarding.  6 TA’s means if or when there are a bunch of silly questions by students they can be spread among many people.
-  - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 2.8 seconds. Run it a third time, and it will be another number in between.  The University expectation is if you run the same script multiple times you should get the same run time within hundreds of a second. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more. The Azure Engineering team is looking for a offering where they can Disable technologies like "Turbo" which causes this variability in order to give the customer the fastest possible speed for each and every workload. If the host happens to be quiet, the workload will get a big boost, if the host is busy, it could get no boost. The University would rather sacrifice that turbo boost speed to have little or no variability. 
+  - Azure is not well suited for a platform that needs limited variability in job runs.  E.g. If you run a script for performance on time it could take 3 seconds.  Run the same script again it could run in 2.8 seconds. Run it a third time, and it will be another number in between.  The University expectation is if you run the same script multiple times you should get the same run time within hundreds of a second. When running on Azure you do not. This variability is a problem for any class where performance is evaluated.  This will include performance classes, OS classes, DB classes, ML classes, Analytics classes and many, many more. The Azure Engineering team is looking for an offering or customization that can be made where The University can disable technologies like "Turbo" which causes this variability. The reason there is variability is to give maximum performance available on the hardware. In order to give the customer, the fastest possible speed for each and every workload Turbo is turned on for most class machines including all high-performance class machines which is what the University needs to use. When using Turbo if the host happens to be quiet, the workload will get a big boost of CPU cycles, if the host is busy, it could get no boost. The University would rather sacrifice that turbo boost speed to have little or no variability.
 
 ## Conclusion ##
 
